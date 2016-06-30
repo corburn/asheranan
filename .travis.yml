@@ -9,3 +9,9 @@ os:
 before_install:
   - brew update
   - brew outdated ansible || brew upgrade ansible
+
+script:
+  - ansible --help
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
