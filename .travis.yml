@@ -1,19 +1,22 @@
-#sudo: required
-
+# If language is not specified, Travis-CI will silently default to ruby and crash
+# when it tries to run the `rake` command.
 language: generic
 
-os:
-  - osx
+os: osx
 
 #services:
 #  - docker
 
+# https://docs.travis-ci.com/user/osx-ci-environment/
 before_install:
   - brew update
-  - brew outdated ansible || brew upgrade ansible
-
+  - brew upgrade || true
+  - brew install ansible
+  - echo "localhost ansible_connection=local" > /etc/ansible/hosts
 script:
-  - ansible --help
+  # Check the role/playbook's syntax.
+  - ansible-playbook osx.yml --syntax-check
+  - ansible-playbook osx.yml
 
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+#notifications:
+#  webhooks: https://galaxy.ansible.com/api/v1/notifications/
