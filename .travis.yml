@@ -12,6 +12,7 @@ before_install:
   - brew update
   #- brew upgrade || true
   - brew install ansible
+  - mkdir -p /usr/local/ansible
   - echo "localhost ansible_connection=local" > /usr/local/etc/ansible/hosts
 script:
   # Check role syntax.
