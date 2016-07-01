@@ -6,14 +6,8 @@
     #- name: Install Homebrew
     #  command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-    - name: Homebrew Tap Neovim
-      homebrew_tap: name=neovim/neovim state=present
-
-    - name: Update Homebrew and Install tmux/neovim
-      homebrew: update_homebrew=yes upgrade_all=yes name={{ item }} state=present
-      with_items:
-        - tmux
-        - neovim
+    - name: Homebrew Update
+      homebrew: update_homebrew=yes upgrade_all=yes
 
     - name: Homebrew Casks
       homebrew_cask: name={{ item }} state=present
@@ -22,11 +16,24 @@
         - vagrant-manager
         - virtualbox
 
-    - name: Install Neovim Python Module
-      pip: name=neomvim state=latest
-      ignore_errors: yes
+    - name: Homebrew Taps
+      homebrew_tap: name={{ item }} state=present
+      with_items:
+        - neovim/neovim
 
-    - name: Install Vim Plugins
-      command: vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
+    - name: Homebrew Recipes
+      homebrew: name={{ item }} state=present
+      with_items:
+        - tmux
+        - neovim
+
+    #- name: Install pip
+    #  easy_install: name=pip state=latest virtualenv=$HOME/env virtualenv_command=pyvenv
+
+    #- name: Install Neovim Python Module
+    #  pip: name=neomvim state=latest virtualenv=$HOME/env virtualenv_command=pyvenv
+
+    #- name: Install Vim Plugins
+    #  command: vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
 
 
