@@ -10,13 +10,20 @@ os: osx
 # https://docs.travis-ci.com/user/osx-ci-environment/
 before_install:
   - brew update
-  - brew upgrade || true
+  #- brew upgrade || true
   - brew install ansible
-  - echo "localhost ansible_connection=local" > /etc/ansible/hosts
+  - echo "localhost ansible_connection=local" > /usr/local/etc/ansible/hosts
 script:
-  # Check the role/playbook's syntax.
+  # Check role syntax.
   - ansible-playbook osx.yml --syntax-check
+  # Execute role.
   - ansible-playbook osx.yml
+  # Test role idempotence.
+  - >
+    ansible-playbook osx.yml
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
 
 #notifications:
 #  webhooks: https://galaxy.ansible.com/api/v1/notifications/
