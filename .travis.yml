@@ -2,29 +2,18 @@
 # when it tries to run the `rake` command.
 language: generic
 
-os: osx
+os: linux
 
-#services:
-#  - docker
+addons:
+  apt:
+    packages:
+      vagrant
 
-# https://docs.travis-ci.com/user/osx-ci-environment/
 before_install:
-  - brew update
-  #- brew upgrade || true
-  - brew install ansible
-  - mkdir -p /usr/local/etc/ansible
-  - echo "localhost ansible_connection=local" > /usr/local/etc/ansible/hosts
+  - vagrant up
+
 script:
-  # Check role syntax.
-  - ansible-playbook osx.yml --syntax-check
-  # Execute role.
-  - ansible-playbook osx.yml
-  # Test role idempotence.
-  - >
-    ansible-playbook osx.yml
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+  - true
 
 #notifications:
 #  webhooks: https://galaxy.ansible.com/api/v1/notifications/
