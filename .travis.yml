@@ -10,6 +10,7 @@ addons:
       vagrant
 
 before_install:
+  - ruby --version
   - vagrant up
 
 script:
