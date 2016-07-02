@@ -1,0 +1,8 @@
+---
+
+# Obtain the stats of /etc/foo.conf, and check that the file still belongs
+# to 'root'. Fail otherwise.
+- stat: path=/var/log
+  register: st
+- fail: msg="Whoops! file ownership has changed"
+  when: st.stat.gr_name == 'syslog'
