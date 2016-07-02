@@ -19,9 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Perform one-time configuration of Docker provider to specify
   # location of Vagrantfile for host VM; comment out this section
   # to use default boot2docker box
-  config.vm.provider "docker" do |docker|
-    docker.vagrant_vagrantfile = "host/Vagrantfile"
-  end
+  #config.vm.provider "docker" do |docker|
+  #  docker.vagrant_vagrantfile = "host/Vagrantfile"
+  #end
 
   # Iterate through the entries in the YAML file
   containers.each do |container|
