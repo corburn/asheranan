@@ -10,7 +10,8 @@ addons:
       vagrant
 
 before_install:
-  - ruby --version
+  # https://askubuntu.com/questions/313920/errors-with-vagrant-and-ubuntu-12-10-with-rvm
+  - rvm use system --default
   - vagrant up
 
 script:
