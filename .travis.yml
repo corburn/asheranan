@@ -1,19 +1,20 @@
+# https://docs.travis-ci.com/user/ci-environment/#Virtualization-environments
+sudo: required
+dist: trusty
+
 # If language is not specified, Travis-CI will silently default to ruby and crash
 # when it tries to run the `rake` command.
 language: generic
 
 os: linux
 
-addons:
-  apt:
-    sources:
-      debian-sid
-    packages:
-      vagrant
+service: docker
 
 before_install:
   # https://askubuntu.com/questions/313920/errors-with-vagrant-and-ubuntu-12-10-with-rvm
-  - rvm use system --default
+  - wget --quiet https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
+  - sudo dpkg -i vagrant_1.8.4_x86_65.deb
+  #- rvm use system --default
   - vagrant --version
   - vagrant up
 
