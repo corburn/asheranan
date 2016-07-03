@@ -1,18 +1,18 @@
-# https://docs.travis-ci.com/user/ci-environment/#Virtualization-environments
-#sudo: required
-#dist: trusty
-sudo: false
-
 # If language is not specified, Travis-CI will silently default to ruby and crash
 # when it tries to run the `rake` command.
 language: generic
 
 os: linux
 
+
+# https://docs.travis-ci.com/user/ci-environment/#Virtualization-environments
+sudo: required
 service: docker
+
 
 # https://hub.docker.com/_/sentry/
 before_install:
+  - free -h
   - docker run -d --name sentry-redis redis
   - docker run -d --name sentry-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=sentry postgres
   - docker run --rm sentry generate-secret-key
@@ -24,6 +24,7 @@ before_install:
 
 script:
   - true
+
 
 #notifications:
 #  webhooks: https://galaxy.ansible.com/api/v1/notifications/
