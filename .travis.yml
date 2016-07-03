@@ -6,8 +6,9 @@ os: linux
 
 
 # https://docs.travis-ci.com/user/ci-environment/#Virtualization-environments
-sudo: required
-service: docker
+#sudo: required
+sudo: false
+services: docker
 
 
 # https://hub.docker.com/_/sentry/
