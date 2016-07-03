@@ -13,7 +13,7 @@ service: docker
 before_install:
   # https://askubuntu.com/questions/313920/errors-with-vagrant-and-ubuntu-12-10-with-rvm
   - wget https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
-  - sudo dpkg -i vagrant_1.8.4_x86_65.deb
+  - sudo dpkg -i vagrant_1.8.4_x86_64.deb
   #- rvm use system --default
   - vagrant --version
   - vagrant up
