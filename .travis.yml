@@ -12,7 +12,7 @@ service: docker
 
 # https://hub.docker.com/_/sentry/
 before_install:
-  - free -h
+  - free -mlt
   - docker run -d --name sentry-redis redis
   - docker run -d --name sentry-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=sentry postgres
   - docker run --rm sentry generate-secret-key
