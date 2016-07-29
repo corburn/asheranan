@@ -14,11 +14,5 @@ before_install:
 # TODO: Customize container
 - container_id=$(mktemp)
 # Run container in detached state
-- >
-  docker run
-    --detach
-    --volume="${PWD}":/etc/ansible/roles/role_under_test:ro
-    ubuntu
-    /sbin/init
-    > "${container_id}"
-- echo ${container_id}
+- docker run --privileged --detach ubuntu /sbin/init > "${container_id}"
+- cat ${container_id}
