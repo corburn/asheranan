@@ -1,0 +1,24 @@
+sudo: required
+
+language: generic
+
+env:
+- action: noop
+
+services:
+- docker
+
+before_install:
+# Pull container
+- docker pull ubuntu
+# TODO: Customize container
+- container_id=$(mktemp)
+# Run container in detached state
+- >
+docker run
+  --detach
+  --volume="${PWD}":/etc/ansible/roles/role_under_test:ro
+  ubuntu
+  /sbin/init
+  > "${container_id}"
+- echo ${container_id}
