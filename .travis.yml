@@ -15,10 +15,10 @@ before_install:
 - container_id=$(mktemp)
 # Run container in detached state
 - >
-docker run
-  --detach
-  --volume="${PWD}":/etc/ansible/roles/role_under_test:ro
-  ubuntu
-  /sbin/init
-  > "${container_id}"
+  docker run
+    --detach
+    --volume="${PWD}":/etc/ansible/roles/role_under_test:ro
+    ubuntu
+    /sbin/init
+    > "${container_id}"
 - echo ${container_id}
