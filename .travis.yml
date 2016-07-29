@@ -12,7 +12,11 @@ before_install:
 # Pull container
 - docker pull ubuntu
 # TODO: Customize container
-- container_id=$(mktemp)
 # Run container in detached state
-- docker run --privileged --detach ubuntu /sbin/init > "${container_id}"
-- cat ${container_id}
+- docker run --privileged --detach --name srv ubuntu /sbin/init
+- docker exec srv apt-add-repository -y ppa:ansible/ansible
+- docker exec srv add-apt-repository ppa:ubuntu-lxc/lxd-stable
+- docker exec srv apt-get update
+- docker exec srv apt-get install -y ansible lxd
+- df -h
+- free -g
