@@ -5,13 +5,16 @@
     name: '{{ item }}'
   with_items:
     - unattended-upgrades
-    - bsd-mailx
-    - apt-listchanges
+      #- bsd-mailx
+      #- apt-listchanges
+      #- apticron
   become: yes
 
-# TODO: 20auto-upgrades-disabled absent
 - name: Configure /etc/apt/apt.conf.d unattended-upgrades
   copy:
+    # It is safe to leave backup files in apt.conf.d/ because files
+    # ending in '~' are among the files APT ignores by default.
+    # http://manpages.ubuntu.com/manpages/wily/man5/apt.conf.5.html
     backup: yes
     dest: '{{ item.dest }}'
     src: '{{ item.src }}'
