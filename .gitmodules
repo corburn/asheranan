@@ -10,3 +10,6 @@
 [submodule "roles/micafer.torque"]
 	path = roles/micafer.torque
 	url = https://github.com/micafer/ansible-role-torque.git
+[submodule "roles/corburn.nginx/files/server-configs-nginx"]
+	path = roles/corburn.nginx/files/server-configs-nginx
+	url = https://github.com/h5bp/server-configs-nginx.git

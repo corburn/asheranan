@@ -7,14 +7,21 @@
           comment: Jason Travis
           password: $6$c2LdCLmpFJZBv$vzzNuyfVGzwO13e29ya9o//HHG2NT2gQ8LWam3quSkEqbMBA8g6X/.GvfdYDCZid.683oABXDpQaQ5Tss7YUF1
           ssh_pub_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVgzaYtNzq1z8aeV31gtwdbScz2zJTkTR0p3Sl8AYN/ jtravis@IT5345.local
+          # TODO: extract sudo and lxd group assignment to sudo/lxd roles
           groups: sudo
         - username: user
           state: absent
           remove: yes
   roles:
     - role: corburn.users
-    - role: corburn.sshd
+      #FIXME: corburn.sshd is implicitly dependent on corburn.users
+      #- role: corburn.sshd
     - role: corburn.lxd
+      #- role: corburn.unattended-upgrades
+      #unattended_upgrades_email: jasontravis@nau.edu
+      #TODO: sudo role
+      #TODO: ntpd role
+      #TODO: https://github.com/lae/ansible-role-system_ldap
   tasks:
     - hostname: name={{ inventory_hostname }}
       become: true
@@ -30,9 +37,6 @@
       with_items:
         - ansible
         - git
-        # https://wiki.debian.org/UnattendedUpgrades
-        #- unattended-upgrades
-        #- apt-listchanges
         - htop
           #- iptables
           #- iptables-persistent

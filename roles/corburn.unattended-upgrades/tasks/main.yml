@@ -1,0 +1,34 @@
+# https://wiki.debian.org/UnattendedUpgrades
+---
+- name: Install unattended-upgrades along with bsd-mailx for email notification.
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - unattended-upgrades
+    - bsd-mailx
+    - apt-listchanges
+  become: yes
+
+# TODO: 20auto-upgrades-disabled absent
+- name: Configure /etc/apt/apt.conf.d unattended-upgrades
+  copy:
+    backup: yes
+    dest: '{{ item.dest }}'
+    src: '{{ item.src }}'
+  with_items:
+    - { src: '10periodic', dest: '/etc/apt/apt.conf.d/10periodic' }
+    - { src: '20auto-upgrades', dest: '/etc/apt/apt.conf.d/20auto-upgrades' }
+    - { src: '50unattended-upgrades', dest: '/etc/apt/apt.conf.d/50unattended-upgrades' }
+  become: yes
+
+- name: unattended-upgrades.service is enabled and started
+  service:
+    name: unattended-upgrades
+    enabled: yes
+    state: started
+
+# Configure upgrade timing in /etc/apt/apt.conf.d/10periodic
+# APT::Periodic::Update-Package-Lists "1";
+#APT::Periodic::Download-Upgradeable-Packages "1";
+#APT::Periodic::AutocleanInterval "5";
+#APT::Periodic::Unattended-Upgrade "1";

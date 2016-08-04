@@ -13,7 +13,7 @@
 - name: copy github.com/h5bp/server-configs-nginx
   copy:
     backup: yes
-    src: github.com/h5bp/server-configs-nginx/
+    src: server-configs-nginx/
     dest: /etc/nginx/
   notify:
     - restart nginx
@@ -25,6 +25,7 @@
     dest: /etc/nginx/nginx.conf
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
+    # TODO: enable validation
     #validate: 'nginx -t -c %s'
   with_items:
     # Replace in the global scope user www www;
