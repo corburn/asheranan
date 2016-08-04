@@ -1,0 +1,12 @@
+[submodule "roles/ANXS.postgresql"]
+	path = roles/ANXS.postgresql
+	url = https://github.com/ANXS/postgresql.git
+[submodule "roles/geerlingguy.redis"]
+	path = roles/geerlingguy.redis
+	url = https://github.com/geerlingguy/ansible-role-redis
+[submodule "roles/ansible-role-nagios"]
+	path = roles/ansible-role-nagios
+	url = https://github.com/networklore/ansible-role-nagios.git
+[submodule "roles/micafer.torque"]
+	path = roles/micafer.torque
+	url = https://github.com/micafer/ansible-role-torque.git

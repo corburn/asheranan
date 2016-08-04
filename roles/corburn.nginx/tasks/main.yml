@@ -1,0 +1,52 @@
+---
+- name: add nginx development PPA
+  apt_repository:
+    repo: 'ppa:nginx/development'
+    state: present
+    update_cache: yes
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: copy github.com/h5bp/server-configs-nginx
+  copy:
+    backup: yes
+    src: github.com/h5bp/server-configs-nginx/
+    dest: /etc/nginx/
+  notify:
+    - restart nginx
+
+- name: define nginx worker process user and log files
+  lineinfile:
+    # Only the first item should trigger a backup
+    backup: '{{ item.backup is defined and item.backup }}'
+    dest: /etc/nginx/nginx.conf
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    #validate: 'nginx -t -c %s'
+  with_items:
+    # Replace in the global scope user www www;
+    - { regexp: ^user, line: user www-data www-data;, backup: true }
+    # Replace in the global scope: error_log logs/error.log warn;
+    - { regexp: ^error_log, line: error_log /var/log/nginx/error.log; }
+    # Replace in the http scope: access_log logs/access.log main;
+    # TODO: Is it possible to use bakref to match the original indentation
+    # instead of hardcoding an assumption of 2 spaces?
+    - { regexp: '^[ \t]*access_log', line: '  access_log /var/log/nginx/access.log;' }
+    
+- name: copy default site with EFF certbot webroot SSL autorenewal
+  copy:
+    backup: yes
+    src: default
+    dest: /etc/nginx/sites-available/default
+
+- name: enable default site
+  file:
+    force: yes
+    src: /etc/nginx/sites-enabled/default
+    dest: /etc/nginx/sites-available/default
+    state: link
+  notify:
+    - restart nginx

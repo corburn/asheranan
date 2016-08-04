@@ -1,0 +1,5 @@
+---
+domain_name: example.com
+db_password: SuperSecureSecretPassword1
+csrf_secret: foobarbaz
+

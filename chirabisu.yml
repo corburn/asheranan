@@ -1,0 +1,63 @@
+---
+- hosts: all
+  become_user: root
+  vars:
+    users:
+        - username: jtravis
+          comment: Jason Travis
+          password: $6$c2LdCLmpFJZBv$vzzNuyfVGzwO13e29ya9o//HHG2NT2gQ8LWam3quSkEqbMBA8g6X/.GvfdYDCZid.683oABXDpQaQ5Tss7YUF1
+          ssh_pub_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVgzaYtNzq1z8aeV31gtwdbScz2zJTkTR0p3Sl8AYN/ jtravis@IT5345.local
+          groups: sudo
+        - username: user
+          state: absent
+          remove: yes
+  roles:
+    - role: corburn.users
+      #- role: corburn.sshd
+    - role: corburn.lxd
+  tasks:
+    - hostname: name={{ inventory_hostname }}
+      become: true
+    - name: Mount tmpfs
+      mount: name=/mnt/tmpfs src=tmpfs fstype=tmpfs state=mounted
+      become: true
+    - apt:
+        autoremove: yes
+        cache_valid_time: 3600
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      with_items:
+        - ansible
+        - git
+        # https://wiki.debian.org/UnattendedUpgrades
+        - unattended-upgrades
+        - apt-listchanges
+          #- iptables
+          #- iptables-persistent
+
+      #- name: ""
+      #command: truncate -s 300g containers.img
+#    - name: dist-upgrade
+#      apt:
+#        autoremove: yes
+#        update_cache: yes
+#        upgrade: dist
+#    - name: Install bikeshed
+#      apt: name=bikeshed
+#    - name: purge-old-kernels
+#      command: purge-old-kernels --keep 1 -qy
+#      register: command_result
+#      changed_when: 'command_result.stdout != "No kernels are eligible for removal"'
+#    - name: Upgrade to latest Ubuntu Long Term Support release
+#      command: do-release-upgrade -f DistUpgradeViewNonInteractive
+#    - name: Restart system if required to complete system upgrade
+#      command: shutdown -r now 'Rebooting to complete system upgrade' removes=/var/run/reboot-required
+#      async: 0
+#      poll: 0
+#    - name: Wait for server to come back online after a restart
+#      local_action: wait_for host={{ ansible_ssh_host }} state=started
+
+#- hosts: chirabisu.xyz
+#  roles:
+#    - corburn.lxd

@@ -1,0 +1,24 @@
+---
+
+- name: secure ssh_config
+  copy:
+    backup: yes
+    dest: /etc/ssh/ssh_config
+    src: ssh_config
+  become: yes
+
+- name: secure sshd_config
+  copy:
+    backup: yes
+    dest: /etc/ssh/sshd_config
+    src: sshd_config
+  notify: restart ssh
+  become: yes
+
+- name: start ssh service
+  service:
+    enabled: yes
+    name: ssh
+    state: started
+  become: yes
+    

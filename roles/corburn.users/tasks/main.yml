@@ -1,0 +1,23 @@
+---
+- user:
+    append: yes
+    comment: '{{ item.comment | default(omit) }}'
+    createhome: yes
+    generate_ssh_key: yes
+    groups: '{{ item.groups | default(omit) }}'
+    name: '{{ item.username }}'
+    password: '{{ item.password | default(omit) }}'
+    shell: '{{ item.shell | default("/bin/bash") }}'
+    state: '{{ item.state | default("present") }}'
+    remove: '{{ item.remove | default("no") }}'
+  with_items: '{{ users }}'
+  become: yes
+
+- authorized_key:
+    user: '{{ item.username }}'
+    #key: '{{ lookup('file', '/home/charlie/.ssh/id_rsa.pub') }}'
+    key: '{{ item.ssh_pub_key }}'
+    manage_dir: yes
+  with_items: '{{ users }}'
+  when: item.ssh_pub_key is defined
+  become: yes

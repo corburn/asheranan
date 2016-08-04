@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        
+        # letsencrypt webroot certificate renewal.
+        location  ~ .well-known/acme-challenge/ {
+                root /srv/letsencrypt;
+        }
+        
+        # Redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
+        location / {
+                return 301 https://$host$request_uri;
+        }
+}

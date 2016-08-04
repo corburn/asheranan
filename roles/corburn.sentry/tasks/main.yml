@@ -1,0 +1,72 @@
+# vim: noai:ts=2:sw=2
+# https://docs.getsentry.com/on-premise/server/installation/python/
+---
+- name: install sentry dependencies
+  apt:
+    name: '{{ item }}'
+  with_items:
+    # virtualenv is a dependency of the ansible pip module
+    - virtualenv
+    - python-setuptools
+    - python-pip
+    - python-dev
+    - libxslt1-dev
+    - gcc
+    - libffi-dev
+    - libjpeg-dev
+    - libxml2-dev
+    - libxslt-dev
+    - libyaml-dev
+    # fatal: [pathogen]: FAILED! => {"changed": false, "cmd": "/srv/sentry//bin/pip install sentry", "failed": true, "msg": "stdout: Collecting sentry\n  Using cached sentry-8.6.0-py27-none-any.whl\nCollecting progressbar<2.4,>=2.2 (from sentry)\n  Using cached progressbar-2.3.tar.gz\nCollecting click<7.0,>=5.0 (from sentry)\n  Using cached click-6.6.tar.gz\nCollecting enum34<1.2.0,>=0.9.18 (from sentry)\n  Using cached enum34-1.1.6-py2-none-any.whl\nCollecting simplejson<3.9.0,>=3.2.0 (from sentry)\n  Using cached simplejson-3.8.2.tar.gz\nCollecting setproctitle<1.2.0,>=1.1.7 (from sentry)\n  Using cached setproctitle-1.1.10.tar.gz\nCollecting toronado<0.1.0,>=0.0.4 (from sentry)\n  Using cached toronado-0.0.10.tar.gz\nCollecting celery<3.1.19,>=3.1.8 (from sentry)\n  Using cached celery-3.1.18-py2.py3-none-any.whl\nCollecting pytest<2.7.0,>=2.6.4 (from sentry)\n  Using cached pytest-2.6.4.tar.gz\nCollecting rb<2.0.0,>=1.4.0 (from sentry)\n  Using cached rb-1.5-py2-none-any.whl\nCollecting django-recaptcha<1.1.0,>=1.0.4 (from sentry)\n  Using cached django-recaptcha-1.0.5.tar.gz\nCollecting statsd<3.2.0,>=3.1.0 (from sentry)\n  Using cached statsd-3.1-py2.py3-none-any.whl\nCollecting psycopg2<2.7.0,>=2.6.0 (from sentry)\n  Using cached psycopg2-2.6.2.tar.gz\n    Complete output from command python setup.py egg_info:\n    running egg_info\n    creating pip-egg-info/psycopg2.egg-info\n    writing pip-egg-info/psycopg2.egg-info/PKG-INFO\n    writing top-level names to pip-egg-info/psycopg2.egg-info/top_level.txt\n    writing dependency_links to pip-egg-info/psycopg2.egg-info/dependency_links.txt\n    writing manifest file 'pip-egg-info/psycopg2.egg-info/SOURCES.txt'\n    warning: manifest_maker: standard file '-c' not found\n    \n    Error: You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.\n    \n    \n    ----------------------------------------\n\n:stderr: Command \"python setup.py egg_info\" failed with error code 1 in /tmp/pip-build-206WMw/psycopg2/\n"}
+    - postgresql-server-dev-9.5
+
+- name: install sentry in virtualenv
+  pip: 
+    name: sentry
+    virtualenv: '{{ sentry_venv }}'
+    virtualenv_python: python2.7
+
+- name: ''
+  file:
+    path: /usr/local/lib/systemd/system/
+    state: directory
+    recurse: yes
+
+- block:
+    - name: install sentry systemd services
+      template:
+        src: '{{ item }}'
+        dest: '/usr/local/lib/systemd/system/{{ item }}'
+        #validate: 'systemd-analyze verify %s'
+      with_items:
+        - sentry-cron.service
+        - sentry-web.service
+        - sentry-worker.service
+      register: command_result
+    - file:
+        src: '/usr/local/lib/systemd/system/{{ item }}'
+        dest: '/etc/systemd/system/{{ item }}'
+        state: link
+      with_items:
+        - sentry-cron.service
+        - sentry-web.service
+        - sentry-worker.service
+      #register: command_result
+  rescue:
+    - fail: 'msg={{ command_result.stderr }}'
+
+# TODO
+#- name: add sentry supervisord.conf
+#  template:
+#    src: supervisord.conf
+#    dest: 
+
+- name: initialize sentry
+  command: '{{ sentry_venv }}/bin/sentry init /etc/sentry creates=/etc/sentry/config.yml'
+  # TODO: add chdir parameter?
+
+#- name: checkout github.com/getsentry/onpremise
+#  git:
+#    repo: 'https://github.com/getsentry/onpremise.git'
+#    dest: /usr/local/src
+#    #version:

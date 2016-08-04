@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+NGINX_CONF="$SCRIPT_DIR/files/github.com/h5bp/server-configs-nginx/nginx.conf"
+
+printf "This script was created to fix the configuration for a fresh checkout of github.com/h5bp/server-configs-nginx\n"
+printf "It was based on the following environment:\n"
+printf "\tserver-configs-nginx commit: 3f4719b79abd510a07e8a5635b85a53077480237\n"
+printf "\tUbuntu: Xenial\n"
+
+if [[ ! -f "$NGINX_CONF" ]]; then
+	2>&1 printf "FILE NOT FOUND: $NGINX_CONF\n"
+	exit 1
+fi
+
+# NOTE: Without the '^' startswith operator, the user regex errantly matched sections of the log_format directive.
+# The 'access_log' regex has a whitespace prefix because it is expected to be in the http scope.
+# The 'user' and 'error_log' regex do not have a whitespace prefix because they are expected to be in the global scope.
+sed -i \
+	-e 's:^user.*:user www-data www-data;:' \
+	-e 's:^[ \t]*access_log.*:  access_log /var/log/nginx/access.log;:' \
+	-e 's:^error_log.*:error_log /var/log/nginx/error.log;:' \
+	"$NGINX_CONF"

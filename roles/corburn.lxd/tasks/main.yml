@@ -1,0 +1,54 @@
+# https://insights.ubuntu.com/2015/11/06/using-lxd-with-a-file-based-zfs-pool-on-ubuntu-wily/
+#
+# TODO: Users must be a member of the lxd group to use LXD
+# To implement this, add a users task that iterates over a list of users.
+# The list of users can be a variable the playbook assigns as, for example, the list of all users.
+---
+- name: add lxd ppa
+  apt_repository: 'repo=ppa:ubuntu-lxc/lxd-stable'
+  become: yes
+
+  # TODO: install zfs-tools?
+- name: install lxd
+  apt:
+    autoremove: yes
+    name: lxd
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: install zfsutil-linux
+  apt: name=zfsutils-linux state=latest
+  become: yes
+    
+- name: modprobe zfs
+  modprobe: name=zfs state=present
+  become: yes
+
+  #- name: Create postgres zpool
+  #  command: zpool create -O compression=gzip postgres /dev/sdb -o ashift=12 -O    secondarycache=all
+  #          creates=/postgres
+  #
+
+  # TODO: enable ZFS compression property
+  # TODO: restrict primary/secondary cache properties to metadata based on:
+  # "It is possible to improve performance when a zvol or dataset hosts an
+  # application that does its own caching by caching only metadata [...]
+  # Another would be a virtual machine using ZFS."
+  # See http://open-zfs.org/wiki/Performance_tuning
+  # truncate --size=300G /var/zpool/lxd.vdev creates=/var/zpool/lxd.vdev
+  #
+  # I found the location of the zfs.img file by running the command: sudo zpool status
+- name: lxd init
+  command: lxd init --auto --storage-backend=zfs --storage-pool=lxd --storage-create-loop=300 creates=/var/lib/lxd/zfs.img
+  become: yes
+
+- name: LXD service is enabled and started
+  service: name=lxd enabled=yes state=started
+  become: yes
+
+  #- name: Copy base Ubuntu Xenial image
+  #  command: lxc image copy ubuntu:xenial local: --alias xenial_base --auto-update
+
+  #- name: Copy base CentOS/6 LXD image
+  #  command: lxc image copy images:centos/6/amd64 local: --alias centos6_base --auto-update

@@ -1,0 +1,21 @@
+chirabisu.xyz ansible_host=45.62.241.148
+
+[webservers]
+pathogen       ansible_connection=lxd
+
+# The head node runs the pbs_server daemon and scheduler daemon
+[torque_head]
+tnorth-login
+tnorth-gold
+
+# The compute nodes run the pbs_mom daemon
+[torque_compute]
+tnorth-hmem
+tnorth-node[01:18]
+
+[torque_cluster:children]
+torque_head
+torque_compute
+
+[nagios]
+nagios       ansible_connection=lxd

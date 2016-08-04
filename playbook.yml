@@ -1,0 +1,43 @@
+---
+- hosts: webservers
+  #any_errors_fatal: true
+  #vars:
+    #http_port: 80
+    #max_clients: 200
+  roles:
+    - role: geerlingguy.redis
+      # See defaults for additional configuration options
+      #redis_loglevel: "notice"
+      #redis_logfile: /var/log/redis/redis-server.log
+      # Add extra include files for local configuration/overrrides
+      redis_includes: []
+    - role: ANXS.postgresql
+      # See defaults for additional configuration options
+      postgresql_version: 9.5
+      # FIXME: trust is the least secure auth method
+      postgresql_default_auth_method: trust
+      postgresql_cluster_name: tnorth
+      postgresql_databases:
+        - { name: pims, owner: pims }
+        - { name: sentry, owner: sentry }
+      postgresql_database_extensions: []
+      postgresql_users:
+        #- { name: pims, pass: pims }
+        - { name: pims }
+        - { name: sentry }
+      postgresql_user_privileges: []
+    - role: nginx
+    - role: sentry
+      sentry_venv: /srv/sentry/
+
+- hosts: torque_workers 
+  roles:
+    - role: 'micafer.torque'
+      torque_server: 'localhost'
+      torque_type_of_node: 'mom'
+
+- hosts: torque_login
+  roles:
+    - role: 'micafer.torque'
+      torque_server: 'localhost'
+      torque_type_of_node: 'server'
