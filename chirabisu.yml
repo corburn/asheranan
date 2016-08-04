@@ -13,7 +13,7 @@
           remove: yes
   roles:
     - role: corburn.users
-      #- role: corburn.sshd
+    - role: corburn.sshd
     - role: corburn.lxd
   tasks:
     - hostname: name={{ inventory_hostname }}
@@ -31,10 +31,12 @@
         - ansible
         - git
         # https://wiki.debian.org/UnattendedUpgrades
-        - unattended-upgrades
-        - apt-listchanges
+        #- unattended-upgrades
+        #- apt-listchanges
+        - htop
           #- iptables
           #- iptables-persistent
+      become: yes
 
       #- name: ""
       #command: truncate -s 300g containers.img
