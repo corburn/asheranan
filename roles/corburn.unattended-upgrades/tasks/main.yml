@@ -5,7 +5,7 @@
     name: '{{ item }}'
   with_items:
     - unattended-upgrades
-      #- bsd-mailx
+    - bsd-mailx
       #- apt-listchanges
       #- apticron
   become: yes
