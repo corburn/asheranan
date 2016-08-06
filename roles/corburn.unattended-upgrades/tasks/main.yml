@@ -6,8 +6,8 @@
   with_items:
     - unattended-upgrades
     - bsd-mailx
-      #- apt-listchanges
-      #- apticron
+    #- apt-listchanges
+    #- apticron
   become: yes
 
 - name: Configure /etc/apt/apt.conf.d unattended-upgrades
