@@ -43,12 +43,11 @@
   command: lxd init --auto --storage-backend=zfs --storage-pool=lxd --storage-create-loop=300 creates=/var/lib/lxd/zfs.img
   become: yes
 
+# TODO: validate
+- template: src=lxd-bridge.j2 dest=/etc/default/lxd-bridge backup=yes
+  notify: restart lxd-bridge
+  become: yes
+
 - name: LXD service is enabled and started
   service: name=lxd enabled=yes state=started
   become: yes
-
-  #- name: Copy base Ubuntu Xenial image
-  #  command: lxc image copy ubuntu:xenial local: --alias xenial_base --auto-update
-
-  #- name: Copy base CentOS/6 LXD image
-  #  command: lxc image copy images:centos/6/amd64 local: --alias centos6_base --auto-update

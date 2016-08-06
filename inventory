@@ -1,3 +1,6 @@
+localhost ansible_connection=local
+dev ansible_connection=lxd
+
 chirabisu.xyz ansible_host=45.62.241.148
 
 [webservers]

@@ -1,3 +1,6 @@
+# Testing Ansible Roles with Travis CI on GitHub
+# http://www.jeffgeerling.com/blog/testing-ansible-roles-travis-ci-github
+
 sudo: required
 
 language: generic
