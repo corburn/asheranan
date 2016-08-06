@@ -1,0 +1,5 @@
+---
+lxd_confile: ''
+lxd_domain: 'lxd'
+lxd_ipv4_prefix: '10.0.0'
+lxd_ipv6_prefix: '2001:470:b368:4242'
