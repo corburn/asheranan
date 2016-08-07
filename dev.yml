@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+    - corburn.unattended-upgrades
+
+- hosts: jenkins
+  roles:
+    - geerlingguy.jenkins

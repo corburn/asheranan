@@ -1,0 +1,43 @@
+---
+- name: install git
+  apt:
+    autoremove: yes
+    cache_valid_time: 3600
+    name: git
+    state: latest
+    update_cache: yes
+  become: yes
+
+# /etc/gitignore is an arbitrary location
+- name: create /etc/gitignore based on github.com/gitignore/Global/*
+  copy:
+    dest: /etc/gitignore
+    group: root
+    mode: 0644
+    owner: root
+    src: global.gitignore
+  become: true
+
+- name: create /etc/gitconfig to enable color output and /etc/gitignore
+  copy:
+    content: >
+        [color]
+                ui = true
+        [core]
+                excludesfile = /etc/gitignore 
+    dest: '/etc/gitconfig'
+    group: root
+    mode: 0644
+    owner: root
+  become: true
+
+# TODO: validate
+- name: create ~/.gitconfig setting up commit author and email
+  template:
+    backup: yes
+    dest: '/home/{{ item.username }}/.gitconfig'
+    group: '{{ item.username }}'
+    #mode: 0644
+    owner: '{{ item.username }}'
+    src: gitconfig.j2
+  with_items: '{{ users }}'

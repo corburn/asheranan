@@ -13,3 +13,6 @@
 [submodule "roles/corburn.nginx/files/server-configs-nginx"]
 	path = roles/corburn.nginx/files/server-configs-nginx
 	url = https://github.com/h5bp/server-configs-nginx.git
+[submodule "roles/geerlingguy.jenkins"]
+	path = roles/geerlingguy.jenkins
+	url = https://github.com/geerlingguy/ansible-role-jenkins.git

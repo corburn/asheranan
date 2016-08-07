@@ -1,0 +1,4 @@
+---
+- name: restart lxd-bridge
+  service: name=lxd-bridge state=restarted
+  become: true

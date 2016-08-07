@@ -41,3 +41,7 @@
     - role: 'micafer.torque'
       torque_server: 'localhost'
       torque_type_of_node: 'server'
+
+- hosts: jenkins
+  roles:
+    - geerlingguy.jenkins

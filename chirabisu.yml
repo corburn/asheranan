@@ -28,7 +28,14 @@
     - hostname: name={{ inventory_hostname }}
       become: true
     - name: Mount tmpfs
-      mount: name=/mnt/tmpfs src=tmpfs fstype=tmpfs state=mounted
+      mount:
+        name: /mnt/tmpfs
+        src: tmpfs
+        fstype: tmpfs
+        state: mounted
+        # tmpfs default size is half the ram
+        # see fstab(5) for mount options
+        opts: noatime
       become: true
     - apt:
         autoremove: yes
