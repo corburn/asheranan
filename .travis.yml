@@ -2,8 +2,12 @@
 sudo: required
 dist: trusty
 
-language: python
-python: "2.7"
+#language: python
+#python: "2.7"
+language: generic
+
+services:
+  - docker
 
 env:
   - ROLE="corburn.lxd"
@@ -17,6 +21,9 @@ env:
 #      - ansible
 
 before_install:
+  - docker pull ubuntu:xenial
+  - export CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ubuntu:xenial)
+  - echo $CONTAINER_ID
   # Make sure everything's up to date.
   - sudo add-apt-repository ppa:ansible/ansible -y
   - sudo apt-get update -qq

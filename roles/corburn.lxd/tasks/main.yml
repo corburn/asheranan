@@ -17,6 +17,8 @@
     update_cache: yes
   become: yes
 
+#- add-apt-repository ppa:zfs-native/stable
+
 - name: install zfsutil-linux
   apt: name=zfsutils-linux state=latest
   become: yes
