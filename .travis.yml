@@ -1,25 +1,38 @@
-# Testing Ansible Roles with Travis CI on GitHub
-# http://www.jeffgeerling.com/blog/testing-ansible-roles-travis-ci-github
-
+---
 sudo: required
+dist: trusty
 
-language: generic
+language: python
+python: "2.7"
 
 env:
-- action: noop
+  - ROLE="corburn.nginx"
 
-services:
-- docker
+#addons:
+#  apt:
+#    sources:
+#      - sourceline: 'ppa:ansible/ansible'
+#    packages:
+#      - ansible
 
 before_install:
-# Pull container
-- docker pull ubuntu
-# TODO: Customize container
-# Run container in detached state
-- docker run --privileged --detach --name srv ubuntu /sbin/init
-- docker exec srv apt-add-repository -y ppa:ansible/ansible
-- docker exec srv add-apt-repository ppa:ubuntu-lxc/lxd-stable
-- docker exec srv apt-get update
-- docker exec srv apt-get install -y ansible lxd
-- df -h
-- free -g
+  # Make sure everything's up to date.
+  - sudo add-apt-repository ppa:ansible/ansible -y
+  - sudo apt-get update -qq
+  - sudo apt-get install ansible
+
+install:
+  # Add ansible.cfg to pick up roles path.
+  #- "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+
+script:
+  # Check the role/playbook's syntax.
+  - ansible-playbook -i 'localhost,' roles/${ROLE}/tests/test.yml --syntax-check
+  # Run the role/playbook with ansible-playbook.
+  - ansible-playbook -i 'localhost,' roles/${ROLE}/tests/test.yml --connection=local --become
+  # Run the role/playbook again, checking to make sure it's idempotent.
+  - >
+    ansible-playbook -i 'localhost,' roles/${ROLE}/tests/test.yml --connection=local --become
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)

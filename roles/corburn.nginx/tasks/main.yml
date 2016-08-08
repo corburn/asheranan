@@ -1,24 +1,46 @@
 ---
-- name: add nginx development PPA
-  apt_repository:
-    repo: 'ppa:nginx/development'
-    state: present
-    update_cache: yes
+# "This PPA is maintained by volunteers and is not distributed by nginx.org.
+# It has some additional compiled-in modules and may be more fitting for your
+# environment."
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
+#- name: add nginx development PPA
+#  apt_repository:
+#    repo: 'ppa:nginx/development'
+#    state: present
+#    update_cache: yes
 
-- name: install nginx
+# Official Debian/Ubuntu packages 
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
+- name: Create /etc/apt/sources.list.d/nginx.list
+  copy:
+    content: >
+      deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
+      deb-src http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
+    dest: /etc/apt/sources.list.d/nginx.list
+    group: root
+    mode: 0644
+    owner: root
+
+- name: Install latest nginx
   apt:
+    autoremove: yes
     name: nginx
     state: latest
+    update_cache: yes
 
-- name: copy github.com/h5bp/server-configs-nginx
+- name: Copy github.com/h5bp/server-configs-nginx
   copy:
     backup: yes
-    src: server-configs-nginx/
     dest: /etc/nginx/
+    directory_mode: 755
+    group: root
+    mode: 0644
+    owner: root
+    src: server-configs-nginx/
   notify:
     - restart nginx
 
-- name: define nginx worker process user and log files
+- name: Configure nginx worker process user and log files
   lineinfile:
     # Only the first item should trigger a backup
     backup: '{{ item.backup is defined and item.backup }}'

@@ -31,7 +31,7 @@ APT::Periodic::Download-Upgradeable-Packages-Debdelta "1";
 //     a log in /var/log/unattended-upgrades
 APT::Periodic::Unattended-Upgrade "1"; 
 // Do "apt-get autoclean" every n-days (0=disable)
-APT::Periodic::AutocleanInterval "0";
+APT::Periodic::AutocleanInterval "7";
 // Do "apt-get clean" every n-days (0=disable)
 APT::Periodic::CleanInterval "0";
 // Send report mail to root
