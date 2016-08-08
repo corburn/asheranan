@@ -29,7 +29,7 @@ install:
   - sed -i 's:^.*roles_path.*:roles_path = \./roles/:' ansible.cfg
   # Connect with basic user instead of root to test privilege escalation.
   # NOTE: This does not check excessive privilege escalation.
-  - "sed -i '/- hosts: all/a \ \ remote_user: '\"$USER\"'/' roles/${ROLE}/tests/test.yml"
+  - "sed -i '/- hosts: all/a \ \ remote_user: '\"$USER\" roles/${ROLE}/tests/test.yml"
 
 script:
   # Check the role/playbook's syntax.
