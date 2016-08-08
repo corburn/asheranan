@@ -22,16 +22,18 @@ env:
 
 before_install:
   - docker pull ubuntu:xenial
-  - export CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ubuntu:xenial)
+  - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ubuntu:xenial /sbin/init)
   - echo $CONTAINER_ID
+  - 'sudo docker exec --tty "$CONTAINER_ID" sudo add-apt-repository ppa:ansible/ansible -y'
+  - 'sudo docker exec --tty "$CONTAINER_ID" sudo apt-get update -qq'
+  - 'sudo docker exec --tty "$CONTAINER_ID" sudo apt-get install -y ansible'
   # Make sure everything's up to date.
-  - sudo add-apt-repository ppa:ansible/ansible -y
-  - sudo apt-get update -qq
+  #- sudo add-apt-repository ppa:ansible/ansible -y
+  #- sudo apt-get update -qq
 
 install:
   # Add ansible.cfg to pick up roles path.
   #- "printf '[defaults]\nroles_path = ../' > ansible.cfg"
-  - sudo apt-get install -y ansible
   # Edit ansible.cfg to pick up roles path relative to the repository root and not the test directory.
   - sed -i 's:^.*roles_path.*:roles_path = ./roles/:' ansible.cfg
   # Connect with basic user instead of root to test privilege escalation.
@@ -39,6 +41,7 @@ install:
   - "sed -i '/- hosts: all/a \\ \\ remote_user: '\"$USER\" roles/${ROLE}/tests/test.yml"
 
 script:
+  - 'sudo docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
   # Check the role/playbook's syntax.
   - ansible-playbook -i 'localhost,' --syntax-check ./roles/${ROLE}/tests/test.yml
   # Run the role/playbook with ansible-playbook.
