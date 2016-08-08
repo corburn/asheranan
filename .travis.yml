@@ -24,9 +24,9 @@ before_install:
   - docker pull ubuntu:xenial
   - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ubuntu:xenial /sbin/init)
   - echo $CONTAINER_ID
-  - 'sudo docker exec --tty "$CONTAINER_ID" sudo add-apt-repository ppa:ansible/ansible -y'
-  - 'sudo docker exec --tty "$CONTAINER_ID" sudo apt-get update -qq'
-  - 'sudo docker exec --tty "$CONTAINER_ID" sudo apt-get install -y ansible'
+  - docker exec --tty "$CONTAINER_ID" add-apt-repository ppa:ansible/ansible -y
+  - docker exec --tty "$CONTAINER_ID" apt-get update -qq
+  - docker exec --tty "$CONTAINER_ID" apt-get install -y ansible
   # Make sure everything's up to date.
   #- sudo add-apt-repository ppa:ansible/ansible -y
   #- sudo apt-get update -qq
