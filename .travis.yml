@@ -49,11 +49,11 @@ script:
   - 'docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook /etc/ansible/roles/${ROLE}/tests/test.yml --syntax-check'
 
   # Run the role/playbook with ansible-playbook.
-  - 'docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook --connection=local ./roles/${ROLE}/tests/test.yml'
+  - 'docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook --connection=local /etc/ansible/roles/${ROLE}/tests/test.yml'
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-    docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook --connection=local ./roles/${ROLE}/tests/test.yml
+    docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook --connection=local /etc/ansible/roles/${ROLE}/tests/test.yml
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
