@@ -2,4 +2,3 @@
 - hosts: all
   roles:
     - role: corburn.nginx
-      become: yes

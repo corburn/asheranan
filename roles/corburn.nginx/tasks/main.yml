@@ -20,6 +20,7 @@
     group: root
     mode: 0644
     owner: root
+  become: yes
 
 - name: Install latest nginx
   apt:
@@ -27,6 +28,7 @@
     name: nginx
     state: latest
     update_cache: yes
+  become: yes
 
 - name: Copy github.com/h5bp/server-configs-nginx
   copy:
@@ -39,6 +41,7 @@
     src: server-configs-nginx/
   notify:
     - restart nginx
+  become: yes
 
 - name: Configure nginx worker process user and log files
   lineinfile:
@@ -58,12 +61,14 @@
     # TODO: Is it possible to use bakref to match the original indentation
     # instead of hardcoding an assumption of 2 spaces?
     - { regexp: '^[ \t]*access_log', line: '  access_log /var/log/nginx/access.log;' }
+  become: yes
     
 - name: copy default site with EFF certbot webroot SSL autorenewal
   copy:
     backup: yes
     src: default
     dest: /etc/nginx/sites-available/default
+  become: yes
 
 - name: enable default site
   file:
@@ -73,3 +78,4 @@
     state: link
   notify:
     - restart nginx
+  become: yes

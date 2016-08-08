@@ -1,5 +1,11 @@
 ---
-- name: install git
+- name: Add git-core/ppa
+  apt_repository:
+    mode: 0644
+    repo: 'ppa:git-core/ppa'
+    update_cache: yes
+
+- name: Install git
   apt:
     autoremove: yes
     cache_valid_time: 3600
