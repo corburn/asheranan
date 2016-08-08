@@ -19,7 +19,7 @@ before_install:
   # Make sure everything's up to date.
   - sudo add-apt-repository ppa:ansible/ansible -y
   - sudo apt-get update -qq
-  - sudo apt-get install ansible
+  - sudo apt-get install -y ansible
 
 install:
   # Add ansible.cfg to pick up roles path.
