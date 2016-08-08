@@ -12,7 +12,7 @@ services:
 env:
   #- ROLE="corburn.lxd"
   - ROLE: corburn.nginx
-    DISTRIBUTION: Ubuntu
+    DISTRIBUTION: ubuntu
     VERSION: 16.04
 
 #addons:
@@ -24,7 +24,7 @@ env:
 
 before_install:
   # Pull container
-  - 'docker pull "${DISTRIBUTION}:${VERSION}"'
+  - 'docker pull ${DISTRIBUTION}:${VERSION}'
 
   # Customize container
   - 'docker build --rm=true --file=Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
