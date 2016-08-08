@@ -35,10 +35,10 @@ script:
   # Check the role/playbook's syntax.
   - ansible-playbook -i 'localhost,' --syntax-check ./roles/${ROLE}/tests/test.yml
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i 'localhost,' --connection=local --become --become-user=$USER ./roles/${ROLE}/tests/test.yml
+  - ansible-playbook -i 'localhost,' --connection=local ./roles/${ROLE}/tests/test.yml
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-    ansible-playbook -i 'localhost,' --connection=local --become ./roles/${ROLE}/tests/test.yml
+    ansible-playbook -i 'localhost,' --connection=local ./roles/${ROLE}/tests/test.yml
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
