@@ -27,7 +27,9 @@ install:
   - sudo apt-get install -y ansible
   # Edit ansible.cfg to pick up roles path relative to the repository root and not the test directory.
   - sed -i 's:^.*roles_path.*:roles_path = \./roles/:' ansible.cfg
-  - cat ansible.cfg
+  # Connect with basic user instead of root to test privilege escalation.
+  # NOTE: This does not check excessive privilege escalation.
+  - sed -i '/- hosts: all/a \ \ remote_user: '"$USER"'/' roles/${ROLE}/tests/test.yml
 
 script:
   # Check the role/playbook's syntax.
