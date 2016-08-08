@@ -23,19 +23,15 @@ env:
 #      - ansible
 
 before_install:
-  - 'docker pull ${DISTRIBUTION}:${VERSION}'
+  # Pull container
+  - 'docker pull "${DISTRIBUTION}:${VERSION}"'
+
   # Customize container
   - 'docker build --rm=true --file=Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
-  - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)
-  - echo $CONTAINER_ID
 
-  - docker exec --tty "$CONTAINER_ID" sh -c "apt-get update -qq && apt-get install -y python-software-properties"
-  - docker exec --tty "$CONTAINER_ID" add-apt-repository ppa:ansible/ansible -y
-  - docker exec --tty "$CONTAINER_ID" apt-get update -qq
-  - docker exec --tty "$CONTAINER_ID" apt-get install -y ansible
-  # Make sure everything's up to date.
-  #- sudo add-apt-repository ppa:ansible/ansible -y
-  #- sudo apt-get update -qq
+  # Run container in detached state
+  - 'CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)'
+  - 'echo $CONTAINER_ID'
 
 install:
   # Add ansible.cfg to pick up roles path.
@@ -47,7 +43,7 @@ install:
   - "sed -i '/- hosts: all/a \\ \\ remote_user: '\"$USER\" roles/${ROLE}/tests/test.yml"
 
 script:
-  - 'sudo docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
+  - 'docker exec --tty "$CONTAINER_ID" env TERM=xterm ansible-playbook /etc/ansible/roles/${ROLE}/tests/test.yml --syntax-check'
   # Check the role/playbook's syntax.
   - ansible-playbook -i 'localhost,' --syntax-check ./roles/${ROLE}/tests/test.yml
   # Run the role/playbook with ansible-playbook.
