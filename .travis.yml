@@ -32,7 +32,7 @@ before_install:
   - ls -R tests
 
   # Run container in detached state
-  - 'CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)'
+  - 'CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}-${VERSION}:ansible /sbin/init)'
   - 'echo $CONTAINER_ID'
 
 install:
