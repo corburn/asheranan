@@ -27,7 +27,9 @@ before_install:
   - 'docker pull ${DISTRIBUTION}:${VERSION}'
 
   # Customize container
-  - 'docker build --rm=true --file=Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
+  - 'docker build --rm=true --file=tests/Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
+
+  - ls -R tests
 
   # Run container in detached state
   - 'CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)'
