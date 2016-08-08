@@ -23,7 +23,7 @@ env:
 #      - ansible
 
 before_install:
-  - docker pull ${DISTRIBUTION}:${VERSION}
+  - 'docker pull ${DISTRIBUTION}:${VERSION}'
   # Customize container
   - 'docker build --rm=true --file=Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
   - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)
