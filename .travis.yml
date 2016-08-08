@@ -26,7 +26,8 @@ install:
   #- "printf '[defaults]\nroles_path = ../' > ansible.cfg"
   - sudo apt-get install -y ansible
   # Edit ansible.cfg to pick up roles path relative to the repository root and not the test directory.
-  - sed -i 's/^.*roles_path.*/roles_path = \./' ansible.cfg
+  - sed -i 's:^.*roles_path.*:roles_path = \./roles/:' ansible.cfg
+  - cat ansible.cfg
 
 script:
   # Check the role/playbook's syntax.
