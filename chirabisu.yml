@@ -50,6 +50,8 @@
           #- iptables-persistent
       become: yes
 
+# TODO: /etc/profile.d/foo: EDITOR=vim
+
 #    - name: dist-upgrade
 #      apt:
 #        autoremove: yes

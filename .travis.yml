@@ -10,8 +10,10 @@ services:
   - docker
 
 env:
-  - ROLE="corburn.lxd"
-  - ROLE="corburn.nginx"
+  #- ROLE="corburn.lxd"
+  - ROLE: corburn.nginx
+    DISTRIBUTION: Ubuntu
+    VERSION: 16.04
 
 #addons:
 #  apt:
@@ -21,8 +23,10 @@ env:
 #      - ansible
 
 before_install:
-  - docker pull ubuntu:xenial
-  - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ubuntu:xenial /sbin/init)
+  - docker pull ${DISTRIBUTION}:${VERSION}
+  # Customize container
+  - 'docker build --rm=true --file=Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
+  - CONTAINER_ID=$(docker run --detach --volume="${PWD}/roles:/etc/ansible/roles:ro" --privileged ${DISTRIBUTION}:${VERSION} /sbin/init)
   - echo $CONTAINER_ID
 
   - docker exec --tty "$CONTAINER_ID" sh -c "apt-get update -qq && apt-get install -y python-software-properties"
