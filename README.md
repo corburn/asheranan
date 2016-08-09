@@ -44,3 +44,6 @@ Afterwards, this command was used for updates:
 
 TODO: Check out http://ksplice.oracle.com/try/ for online kernel upgrades
 http://www.ksplice.com/doc/ksplice.pdf
+
+# This blog contains a great example of configuring a container with a static IP.
+https://www.osso.nl/blog/renaming-lxd-managed-lxc-container/
