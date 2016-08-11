@@ -24,6 +24,21 @@
     - { src: '50unattended-upgrades', dest: '/etc/apt/apt.conf.d/50unattended-upgrades' }
   become: yes
 
+# TODO: extract email as a variable
+- name: /etc/aliases forward root emails to JasonTravis@nau.edu
+  lineinefile:
+    backup: yes
+    create: yes
+    dest: /etc/aliases
+    group: root
+    line: 'root: JasonTravis@nau.edu'
+    mode: 0644
+    owner: root
+    regexp: ^root:
+  # Execute the command `newaliases` in order to rebuild the indexed file after
+  # changing the Postfix alias database.
+  notify: newaliases
+
 - name: unattended-upgrades.service is enabled and started
   service: name=unattended-upgrades enabled=yes state=started
 
