@@ -8,7 +8,6 @@
   apt_repository: 'repo=ppa:ubuntu-lxc/lxd-stable'
   become: yes
 
-  # TODO: install zfs-tools?
 - name: install lxd
   apt:
     autoremove: yes
@@ -16,6 +15,14 @@
     state: latest
     update_cache: yes
   become: yes
+
+# TODO: ignore errors
+- name: install suggested lxd packages criu and lxd-tools
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - criu
+    - lxd-tools
 
 #- add-apt-repository ppa:zfs-native/stable
 
@@ -44,6 +51,10 @@
 - name: lxd init
   command: lxd init --auto --storage-backend=zfs --storage-pool=lxd --storage-create-loop=300 creates=/var/lib/lxd/zfs.img
   become: yes
+
+# TODO: check if compression is on by default and how to detect if a change was made
+#- name: zfs set compression=on lxd
+#  command: zfs set compression=on lxd
 
 # TODO: validate
 - template: src=lxd-bridge.j2 dest=/etc/default/lxd-bridge backup=yes

@@ -19,16 +19,13 @@
     dest: '{{ item.dest }}'
     src: '{{ item.src }}'
   with_items:
-    - { src: '10periodic', dest: '/etc/apt/apt.conf.d/10periodic' }
+    #- { src: '10periodic', dest: '/etc/apt/apt.conf.d/10periodic' }
     - { src: '20auto-upgrades', dest: '/etc/apt/apt.conf.d/20auto-upgrades' }
     - { src: '50unattended-upgrades', dest: '/etc/apt/apt.conf.d/50unattended-upgrades' }
   become: yes
 
 - name: unattended-upgrades.service is enabled and started
-  service:
-    name: unattended-upgrades
-    enabled: yes
-    state: started
+  service: name=unattended-upgrades enabled=yes state=started
 
 # Configure upgrade timing in /etc/apt/apt.conf.d/10periodic
 # APT::Periodic::Update-Package-Lists "1";

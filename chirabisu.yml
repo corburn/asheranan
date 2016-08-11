@@ -37,6 +37,8 @@
         # see fstab(5) for mount options
         opts: noatime
       become: true
+    - apt_repository: repo=ppa:ansible/ansible update_cache=yes
+      become: true
     - apt:
         autoremove: yes
         cache_valid_time: 3600
