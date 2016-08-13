@@ -59,7 +59,7 @@
   #
   # I found the location of the zfs.img file by running the command: sudo zpool status
 - name: lxd init
-  command: lxd init --auto --storage-backend=zfs --storage-pool=lxd --storage-create-loop=300 creates=/var/lib/lxd/zfs.img
+  command: lxd init --auto --storage-backend=zfs --storage-pool=lxd --storage-create-loop=1 creates=/var/lib/lxd/zfs.img
   become: yes
 
 # TODO: check if compression is on by default and how to detect if a change was made
