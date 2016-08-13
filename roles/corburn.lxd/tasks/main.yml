@@ -6,9 +6,9 @@
 ---
 - name: add lxd ppa
   apt_repository: 'repo=ppa:ubuntu-lxc/lxd-stable'
-    become: yes
     mode: 0644
     update_cache: yes
+  become: yes
 
 - name: install lxd
   apt:
