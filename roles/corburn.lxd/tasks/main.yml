@@ -31,9 +31,18 @@
     update_cache: yes
   become: yes
     
-- name: modprobe zfs
-  modprobe: name=zfs state=present
-  become: yes
+# FIXME: This task will fail if the module is not already present.
+# How do I ensure it is present?
+#
+# fatal: [localhost]: FAILED! => {"changed": false, "failed": true,
+# "msg": "modprobe: ERROR: ../libkmod/libkmod.c:586 kmod_search_moddep() could
+# not open moddep file '/lib/modules/3.19.0-66-generic/modules.dep.bin'\nmodprobe:
+# FATAL: Module zfs not found in directory /lib/modules/3.19.0-66-generic\n",
+# "name": "zfs", "params": "", "state": "present"}
+#
+#- name: modprobe zfs
+#  modprobe: name=zfs state=present
+#  become: yes
 
   #- name: Create postgres zpool
   #  command: zpool create -O compression=gzip postgres /dev/sdb -o ashift=12 -O    secondarycache=all
@@ -56,6 +65,7 @@
 # TODO: check if compression is on by default and how to detect if a change was made
 #- name: zfs set compression=on lxd
 #  command: zfs set compression=on lxd
+#  zfs: name=lxd compression=on
 
 # TODO: validate
 - template: src=lxd-bridge.j2 dest=/etc/default/lxd-bridge backup=yes
