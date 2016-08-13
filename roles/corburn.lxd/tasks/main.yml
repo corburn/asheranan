@@ -42,6 +42,9 @@
     state: latest
     update_cache: yes
   become: yes
+
+- command: find /lib/modules/ -name "zfs.ko" 2>/dev/null
+  become: true
     
 # FIXME: This task will fail if the module is not already present.
 # How do I ensure it is present?
