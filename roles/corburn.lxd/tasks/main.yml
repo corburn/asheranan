@@ -22,6 +22,18 @@
     - lxd-tools
   become: yes
 
+- name: lxd service is enabled and started
+  service: name=lxd enabled=yes state=started
+
+# TODO: validate
+- name: configure lxd-bridge
+  template: src=lxd-bridge.j2 dest=/etc/default/lxd-bridge backup=yes
+  notify: restart lxd-bridge
+  become: yes
+
+- name: LXD service is enabled and started
+  service: name=lxd enabled=yes state=started
+  become: yes
 #- add-apt-repository ppa:zfs-native/stable
 
 - name: install zfsutil-linux
@@ -49,10 +61,6 @@
   #          creates=/postgres
   #
 
-- name: Generate lxd certificate
-  command: lxd list
-  become: yes
-
   # TODO: enable ZFS compression property
   # TODO: restrict primary/secondary cache properties to metadata based on:
   # "It is possible to improve performance when a zvol or dataset hosts an
@@ -71,11 +79,3 @@
 #  command: zfs set compression=on lxd
 #  zfs: name=lxd compression=on
 
-# TODO: validate
-- template: src=lxd-bridge.j2 dest=/etc/default/lxd-bridge backup=yes
-  notify: restart lxd-bridge
-  become: yes
-
-- name: LXD service is enabled and started
-  service: name=lxd enabled=yes state=started
-  become: yes
