@@ -26,9 +26,9 @@
         - { name: pims }
         - { name: sentry }
       postgresql_user_privileges: []
-    - role: nginx
-    - role: sentry
-      sentry_venv: /srv/sentry/
+    #- role: nginx
+    #- role: sentry
+    #  sentry_venv: /srv/sentry/
 
 - hosts: torque_workers 
   roles:

@@ -5,7 +5,8 @@
 # The list of users can be a variable the playbook assigns as, for example, the list of all users.
 ---
 - name: add lxd ppa
-  apt_repository: 'repo=ppa:ubuntu-lxc/lxd-stable'
+  apt_repository: 
+    repo: ppa:ubuntu-lxc/lxd-stable
     mode: 0644
     update_cache: yes
   become: yes
