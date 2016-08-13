@@ -49,6 +49,10 @@
   #          creates=/postgres
   #
 
+- name: Generate lxd certificate
+  command: lxd list
+  become: yes
+
   # TODO: enable ZFS compression property
   # TODO: restrict primary/secondary cache properties to metadata based on:
   # "It is possible to improve performance when a zvol or dataset hosts an
