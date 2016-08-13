@@ -10,8 +10,8 @@ services:
   - docker
 
 env:
-  #- ROLE="corburn.lxd"
-  - ROLE: corburn.nginx
+  - ROLE: corburn.lxd
+  #- ROLE: corburn.nginx
     DISTRIBUTION: ubuntu
     VERSION: 16.04
 

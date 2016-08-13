@@ -6,28 +6,28 @@
 ---
 - name: add lxd ppa
   apt_repository: 'repo=ppa:ubuntu-lxc/lxd-stable'
-  become: yes
+    become: yes
+    mode: 0644
+    update_cache: yes
 
 - name: install lxd
   apt:
-    autoremove: yes
-    name: lxd
+    name: '{{ item }}'
     state: latest
     update_cache: yes
-  become: yes
-
-# TODO: ignore errors
-- name: install suggested lxd packages criu and lxd-tools
-  apt:
-    name: '{{ item }}'
   with_items:
+    - lxd
     - criu
     - lxd-tools
+  become: yes
 
 #- add-apt-repository ppa:zfs-native/stable
 
 - name: install zfsutil-linux
-  apt: name=zfsutils-linux state=latest
+  apt:
+    name: zfsutils-linux
+    state: latest
+    update_cache: yes
   become: yes
     
 - name: modprobe zfs
