@@ -1,0 +1,13 @@
+---
+- name: Check for a new Ubuntu release
+  command: do-release-upgrade --check-dist-upgrade-only
+  changed_when: False
+  register: command_result
+
+- debug:
+    msg: '"Run ''do-release-upgrade'' to upgrade to it." in command_result.stdout'
+- debug: 'msg={{command_result.stdout}}'
+
+# stdout: Checking for a new Ubuntu release\nNo new release found
+- include: do-release-upgrade.yml
+  when: '"Run ''do-release-upgrade'' to upgrade to it." in command_result.stdout'

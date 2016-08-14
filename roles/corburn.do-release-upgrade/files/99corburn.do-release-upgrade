@@ -1,0 +1,21 @@
+# --force-confold: do not modify the current configuration file, the new version
+# is installed with a .dpkg-dist suffix.
+# With this option alone, even configuration files that you have not modified are
+# left untouched. You need to combine it with --force-confdef to let dpkg
+# overwrite configuration files that you have not modified.
+#
+# --force-confnew: always install the new version of the configuration file, the
+# current version is kept in a file with the .dpkg-old suffix.
+#
+# --force-confdef: ask dpkg to decide alone when it can and prompt otherwise.
+# This is the default behavior of dpkg and this option is mainly useful in
+# combination with --force-confold.
+#
+# --force-confmiss: ask dpkg to install the configuration file if it’s currently
+# missing (for example because you have removed the file by mistake).
+Dpkg::Options {
+   "--force-confnew";
+   "--force-confdef";
+   "--force-confmiss";
+}
+

@@ -10,10 +10,10 @@ services:
   - docker
 
 env:
-  - ROLE: corburn.lxd
+  - ROLE: corburn.do-release-upgrade
   #- ROLE: corburn.nginx
     DISTRIBUTION: ubuntu
-    VERSION: 16.04
+    VERSION: 14.04
 
 #addons:
 #  apt:
