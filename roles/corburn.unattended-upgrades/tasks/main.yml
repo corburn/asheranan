@@ -26,7 +26,7 @@
 
 # TODO: extract email as a variable
 - name: /etc/aliases forward root emails to JasonTravis@nau.edu
-  lineinefile:
+  lineinfile:
     backup: yes
     create: yes
     dest: /etc/aliases
@@ -34,13 +34,15 @@
     line: 'root: JasonTravis@nau.edu'
     mode: 0644
     owner: root
-    regexp: ^root:
+    regexp: '^root:'
   # Execute the command `newaliases` in order to rebuild the indexed file after
   # changing the Postfix alias database.
   notify: newaliases
+  become: yes
 
 - name: unattended-upgrades.service is enabled and started
   service: name=unattended-upgrades enabled=yes state=started
+  become: yes
 
 # Configure upgrade timing in /etc/apt/apt.conf.d/10periodic
 # APT::Periodic::Update-Package-Lists "1";

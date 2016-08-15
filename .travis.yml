@@ -11,9 +11,14 @@ services:
 
 env:
   - ROLE: corburn.do-release-upgrade
-  #- ROLE: corburn.nginx
     DISTRIBUTION: ubuntu
     VERSION: 14.04
+  - ROLE: corburn.do-release-upgrade
+    DISTRIBUTION: ubuntu
+    VERSION: 16.04
+  - ROLE: corburn.do-release-upgrade
+    DISTRIBUTION: ubuntu
+    VERSION: latest
 
 #addons:
 #  apt:
@@ -27,6 +32,7 @@ before_install:
   - 'docker pull ${DISTRIBUTION}:${VERSION}'
 
   # Customize container
+  - sed -i 's:^FROM.*:FROM ${DISTRIBUTION}:${VERSION}' docker/Dockerfile.ubuntu-16.04 > docker/Dockerfile.${DISTRIBUTION}-${VERSION}
   - 'docker build --rm=true --file=tests/Dockerfile.${DISTRIBUTION}-${VERSION} --tag=${DISTRIBUTION}-${VERSION}:ansible tests'
 
   - ls -R tests
