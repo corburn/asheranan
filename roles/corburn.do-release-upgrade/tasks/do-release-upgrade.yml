@@ -25,6 +25,11 @@
   file: path=/etc/apt/apt.conf.d/99corburn.do-release-upgrade state=absent
   become: true
 
+# TODO: do-release-upgrade 14.04 -> 16.04 switched the init system from upstart to systemd,
+# but left upstart installed. Remove upstart.
+# I am not adding this task because I am not certain how check which system is active.
+# Removing the wrong one will break the system.
+
 # https://support.ansible.com/hc/en-us/articles/201958037-Reboot-a-server-and-wait-for-it-to-come-back
 - name: restart machine
   shell: sleep 2 && shutdown -r now "Ansible updates triggered"
