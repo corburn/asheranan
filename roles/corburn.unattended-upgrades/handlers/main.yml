@@ -1,0 +1,4 @@
+---
+- name: newaliases
+  command: newaliases
+  become: true
