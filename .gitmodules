@@ -16,3 +16,6 @@
 [submodule "roles/geerlingguy.jenkins"]
 	path = roles/geerlingguy.jenkins
 	url = https://github.com/geerlingguy/ansible-role-jenkins.git
+[submodule "roles/CSC.slurm"]
+	path = roles/CSC.slurm
+	url = https://github.com/CSC-IT-Center-for-Science/ansible-role-slurm.git
