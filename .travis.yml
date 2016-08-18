@@ -37,7 +37,6 @@ env:
 
 before_install:
   - mkdir -p ${HOME}/bin
-  - ln -s 
   - ln -s /usr/bin/pigz ${HOME}/bin/gzip
   - ln -s /usr/bin/pigz ${HOME}/bin/gunzip
   - ln -s /usr/bin/pigz ${HOME}/bin/zcat
