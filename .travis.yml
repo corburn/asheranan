@@ -1,3 +1,5 @@
+# Blog post showing how to update gcc version.
+# http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
 ---
 addons:
   apt:
@@ -6,6 +8,7 @@ addons:
     - ubuntu-toolchain-r-test
     #- llvm-toolchain-precise-3.6
     packages:
+    - pigz
     - curl
     - zlib1g-dev
     #- libncurses5-dev
@@ -28,10 +31,20 @@ env:
     - LOCAL=$HOME/packages
     - CC=/usr/bin/gcc-5
     - CXX=/usr/bin/g++-5
+    - PATH=${HOME}/bin:$PATH
   #matrix:
   #  - FOO=BAR
+
+before_install:
+  - mkdir -p ${HOME}/bin
+  - ln -s 
+  - ln -s /usr/bin/pigz ${HOME}/bin/gzip
+  - ln -s /usr/bin/pigz ${HOME}/bin/gunzip
+  - ln -s /usr/bin/pigz ${HOME}/bin/zcat
 script:
   - echo ${SRC} ${LOCAL}
   - gcc --version
   - ls -lh /usr/bin | grep gcc
   - make -j $(shell grep -c ^processor /proc/cpuinfo) -f samtools.mk SAMTOOLS_VERSION=1.2
+after_failure:
+  - cat /home/travis/src/samtools/1.3/config.log
