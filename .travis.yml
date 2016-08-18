@@ -47,6 +47,59 @@ env:
     - PROGRAM=samtools
       VERSION=0.1.18
 
+    - PROGRAM=bwa
+      VERSION=0.7.15
+    - PROGRAM=bwa
+      VERSION=0.7.13
+    - PROGRAM=bwa
+      VERSION=0.7.12
+    - PROGRAM=bwa
+      VERSION=0.7.11
+    - PROGRAM=bwa
+      VERSION=0.7.10
+    - PROGRAM=bwa
+      VERSION=0.7.9
+    - PROGRAM=bwa
+      VERSION=0.7.8
+    - PROGRAM=bwa
+      VERSION=0.7.7
+    - PROGRAM=bwa
+      VERSION=0.7.5
+
+    - PROGRAM=varscan
+      VERSION=2.4.2
+    - PROGRAM=varscan
+      VERSION=2.4.1
+    - PROGRAM=varscan
+      VERSION=2.4.0
+
+    - PROGRAM=bowtie2
+      VERSION=2.2.9
+    - PROGRAM=bowtie2
+      VERSION=2.2.8
+    - PROGRAM=bowtie2
+      VERSION=2.2.7
+    - PROGRAM=bowtie2
+      VERSION=2.2.6
+    - PROGRAM=bowtie2
+      VERSION=2.2.5
+    - PROGRAM=bowtie2
+      VERSION=2.2.4
+    - PROGRAM=bowtie2
+      VERSION=2.2.3
+    - PROGRAM=bowtie2
+      VERSION=2.2.2
+    - PROGRAM=bowtie2
+      VERSION=2.2.1
+    - PROGRAM=bowtie2
+      VERSION=2.2.0
+    - PROGRAM=bowtie2
+      VERSION=2.0.7
+    - PROGRAM=bowtie2
+      VERSION=2.0.6
+    - PROGRAM=bowtie2
+      VERSION=2.0.5
+
 before_install:
   - mkdir -p ${HOME}/bin
   - ln -s /usr/bin/pigz ${HOME}/bin/gzip
