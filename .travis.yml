@@ -7,6 +7,8 @@ addons:
     #- llvm-toolchain-precise-3.6
     packages:
     - curl
+    - zlib1g-dev
+    #- libncurses5-dev
     # install toolchains
     #- gcc-5
     #- g++-5

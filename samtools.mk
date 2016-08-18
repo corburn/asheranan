@@ -1,5 +1,5 @@
-SRC = /usr/local/src
-LOCAL = /opt
+SRC ?= /usr/local/src
+LOCAL ?= /opt
 
 SAMTOOLS_VERION = 1.3.1
 
