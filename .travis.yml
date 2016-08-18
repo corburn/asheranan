@@ -23,3 +23,4 @@ addons:
 script:
   - gcc --version
   - ls -lh /usr/bin | grep gcc
+  - make -j $(shell grep -c ^processor /proc/cpuinfo) -f samtools.mk SAMTOOLS_VERSION=1.2
