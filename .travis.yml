@@ -19,7 +19,12 @@ addons:
 #    - g++-4.9
 #    - zlib1g-dev
 #    - libbz2-dev
-
+env:
+  global:
+    - SRC=$HOME/src
+    - LOCAL=$HOME/packages
+  #matrix:
+  #  - FOO=BAR
 script:
   - gcc --version
   - ls -lh /usr/bin | grep gcc
