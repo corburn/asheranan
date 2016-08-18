@@ -55,4 +55,4 @@ before_install:
 
 script:
   - make -j $(grep -c ^processor /proc/cpuinfo) -f samtools.mk $PROGRAM ${PROGRAM^^}_VERSION=$VERSION
-  - $PROGRAM || true
+  - $LOCAL/$PROGRAM/$VERSION/bin/$PROGRAM || true
