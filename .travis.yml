@@ -41,6 +41,7 @@ before_install:
   - ln -s /usr/bin/pigz ${HOME}/bin/gunzip
   - ln -s /usr/bin/pigz ${HOME}/bin/zcat
 script:
+  #- latest=$(curl https://api.github.com/repos/samtools/samtools/releases/latest | grep -Pom1 '(?<="name": ").*(?=",)' || true)
   - echo ${SRC} ${LOCAL}
   - gcc --version
   - ls -lh /usr/bin | grep gcc
