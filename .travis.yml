@@ -54,5 +54,5 @@ before_install:
   - ln -s /usr/bin/pigz ${HOME}/bin/zcat
 
 script:
-  - make -j $(grep -c ^processor /proc/cpuinfo) -f samtools.mk $PROGRAM ${PROGRAM^^}_VERSION=$VERSION
+  - make -j $(grep -c ^processor /proc/cpuinfo) $PROGRAM ${PROGRAM^^}_VERSION=$VERSION
   - $LOCAL/$PROGRAM/$VERSION/bin/$PROGRAM || true
