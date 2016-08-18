@@ -86,7 +86,7 @@ $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/%
 
 ${LOCAL}/samtools/1.2: ${SRC}/samtools/1.2 ${SRC}/htslib/1.2.1
 	sed -i -e "s|^prefix.*=.*|prefix = $@|" -e "s|^HTSDIR.*=.*|HTSDIR = ${SRC}/htslib/1.2.1|" $</Makefile
-	$(MAKE) -C $< -d
+	$(MAKE) -C $<
 	${MAKE} -C $< install
 
 ${LOCAL}/samtools/%: ${SRC}/samtools/% ${SRC}/htslib/%
