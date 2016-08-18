@@ -1,7 +1,7 @@
-SRC := /usr/local/src
-LOCAL := /opt
+SRC = /usr/local/src
+LOCAL = /opt
 
-SAMTOOLS_VERION := 1.3.1
+SAMTOOLS_VERION = 1.3.1
 
 # samtools v0.1.x
 # These versions do not depend on the samtools htslib.

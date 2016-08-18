@@ -6,9 +6,10 @@ addons:
     - ubuntu-toolchain-r-test
     #- llvm-toolchain-precise-3.6
     packages:
+    - curl
     # install toolchains
-    - gcc-5
-    - g++-5
+    #- gcc-5
+    #- g++-5
     #- clang-3.6
 #addons:
 #  apt:
