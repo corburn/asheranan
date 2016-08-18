@@ -41,5 +41,7 @@ ${LOCAL}/bowtie2/%: ${SRC}/bowtie2/%
 	# is run outside this script without passing a value to prefix.
 	grep -q '^install:' $</Makefile \
 	|| $(info insert an install rule) \
-	printf '\n\nprefix ?= /usr/local\n.PHONY: install\ninstall: $${BOWTIE2_BIN_LIST}\n\tinstall -D --target-directory=$${prefix}/bin $${BOWTIE2_BIN_LIST}\n' >> $</Makefile
+	printf '\n\nprefix ?= /usr/local\n.PHONY: install\ninstall: $${BOWTIE2_BIN_LIST}\n\tinstall -D --target-directory=$${prefix}/bin $${BOWTIE2_BIN_LIST}\n' >> $</Makefile \
+	&& mkdir -m 0755 -p $@/bin
+
 	${MAKE} -C $< prefix=$@ install
