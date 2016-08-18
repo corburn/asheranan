@@ -1,6 +1,8 @@
 # Blog post showing how to update gcc version.
 # http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
 ---
+language: generic
+
 addons:
   apt:
     sources:
@@ -17,6 +19,7 @@ addons:
     #- g++-5
     #- clang-3.6
 #    - libbz2-dev
+
 env:
   global:
     - SRC=$HOME/src
@@ -27,22 +30,22 @@ env:
   matrix:
     #- PROGRAM=samtools
     #  VERSION=$(curl https://api.github.com/repos/samtools/samtools/releases/latest | grep -Pom1 '(?<="name": ").*(?=",)')
-    - PROGRAM=samtools
-      VERSION=1.3.1
-    - PROGRAM=samtools
-      VERSION=1.3
+#    - PROGRAM=samtools
+#      VERSION=1.3.1
+#    - PROGRAM=samtools
+#      VERSION=1.3
     - PROGRAM=samtools
       VERSION=1.2
-    - PROGRAM=samtools
-      VERSION=1.1
-    - PROGRAM=samtools
-      VERSION=1.0
-    - PROGRAM=samtools
-      VERSION=0.1.20
-    - PROGRAM=samtools
-      VERSION=0.1.19
-    - PROGRAM=samtools
-      VERSION=0.1.18
+#    - PROGRAM=samtools
+#      VERSION=1.1
+#    - PROGRAM=samtools
+#      VERSION=1.0
+#    - PROGRAM=samtools
+#      VERSION=0.1.20
+#    - PROGRAM=samtools
+#      VERSION=0.1.19
+#    - PROGRAM=samtools
+#      VERSION=0.1.18
 
 before_install:
   - mkdir -p ${HOME}/bin
@@ -52,6 +55,3 @@ before_install:
 
 script:
   - make -j $(grep -c ^processor /proc/cpuinfo) -f samtools.mk $PROGRAM ${PROGRAM^^}_VERSION=$VERSION
-
-#after_failure:
-#  - cat /home/travis/src/samtools/1.3/config.log

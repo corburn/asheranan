@@ -86,9 +86,8 @@ $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/%
 	install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1 || true
 
 ${LOCAL}/samtools/1.2: ${SRC}/samtools/1.2 ${SRC}/htslib/1.2.1
-	sed -i "s|^prefix.*=|prefix = $@|" $</Makefile
-	sed -i "s|^HTSDIR.*=|HTSDIR = ${SRC}/htslib/1.2.1|" $</Makefile
-	$(MAKE) -C $<
+	sed -i -e "s|^prefix.*=|prefix = $@|" -e "s|^HTSDIR.*=|HTSDIR = ${SRC}/htslib/1.2.1|" $</Makefile
+	$(MAKE) -C $< -d
 	${MAKE} -C $< install
 
 ${LOCAL}/samtools/%: ${SRC}/samtools/% ${SRC}/htslib/%
