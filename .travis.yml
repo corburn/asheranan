@@ -32,8 +32,9 @@ env:
     #- CC=/usr/bin/gcc-5
     #- CXX=/usr/bin/g++-5
     - PATH=${HOME}/bin:$PATH
-  #matrix:
-  #  - FOO=BAR
+  matrix:
+    - PROGRAM=samtools
+      VERSION=1.2
 
 before_install:
   - mkdir -p ${HOME}/bin
@@ -45,7 +46,7 @@ script:
   - echo ${SRC} ${LOCAL}
   - gcc --version
   - ls -lh /usr/bin | grep gcc
-  - make -j $(grep -c ^processor /proc/cpuinfo) -f samtools.mk samtools SAMTOOLS_VERSION=1.2
+  - make -j $(grep -c ^processor /proc/cpuinfo) -f samtools.mk $PROGRAM ${PROGRAM^^}_VERSION=$VERSION
 after_failure:
   - cat /home/travis/src/samtools/1.3/config.log
   - install --help
