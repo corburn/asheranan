@@ -25,8 +25,8 @@ env:
     #- CXX=/usr/bin/g++-5
     - PATH=${HOME}/bin:$PATH
   matrix:
-    - PROGRAM=samtools
-      VERSION=$(curl https://api.github.com/repos/samtools/samtools/releases/latest | grep -Pom1 '(?<="name": ").*(?=",)')
+    #- PROGRAM=samtools
+    #  VERSION=$(curl https://api.github.com/repos/samtools/samtools/releases/latest | grep -Pom1 '(?<="name": ").*(?=",)')
     - PROGRAM=samtools
       VERSION=1.3.1
     - PROGRAM=samtools
