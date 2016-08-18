@@ -29,8 +29,8 @@ env:
   global:
     - SRC=$HOME/src
     - LOCAL=$HOME/packages
-    - CC=/usr/bin/gcc-5
-    - CXX=/usr/bin/g++-5
+    #- CC=/usr/bin/gcc-5
+    #- CXX=/usr/bin/g++-5
     - PATH=${HOME}/bin:$PATH
   #matrix:
   #  - FOO=BAR
