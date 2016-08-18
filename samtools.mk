@@ -67,7 +67,7 @@ $(addprefix ${SRC}/bcftools/, 1.0 1.1):
 ### COMPILE ###
 
 $(addprefix ${LOCAL}/samtools/, $(SAMTOOLS_V0_1_X)): ${LOCAL}/samtools/%: ${SRC}/samtools/%
-	sed -i "s|^prefix.*=|prefix = $@|" $</Makefile
+	sed -i "s|^prefix.*=.*|prefix = $@|" $</Makefile
 	$(MAKE) -C $<
 	#mkdir -m 755 -p $@/bin $@/share/man1/man
 	install -D --target-directory=$@/bin $(addprefix $</, samtools bcftools/bcftools bcftools/vcfutils.pl)
@@ -76,8 +76,7 @@ $(addprefix ${LOCAL}/samtools/, $(SAMTOOLS_V0_1_X)): ${LOCAL}/samtools/%: ${SRC}
 	install -D --target-directory=$@/share/man --mode=0644 $</bcftools/bcftools.1 || true
 
 $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/% ${SRC}/htslib/%
-	sed -i "s|^prefix.*=|prefix = $@|" $</Makefile
-	sed -i "s|^HTSDIR.*=|HTSDIR = ${SRC}/htslib/$(notdir $@)|" $</Makefile
+	sed -i -e "s|^prefix.*=.*|prefix = $@|" -e "s|^HTSDIR.*=.*|HTSDIR = ${SRC}/htslib/$(notdir $@)|" $</Makefile
 	$(MAKE) -C $<
 	mkdir -m 755 -p $@/bin $@/share/man/man1
 	install -D --target-directory=$@/bin $</samtools
@@ -86,7 +85,7 @@ $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/%
 	install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1 || true
 
 ${LOCAL}/samtools/1.2: ${SRC}/samtools/1.2 ${SRC}/htslib/1.2.1
-	sed -i -e "s|^prefix.*=|prefix = $@|" -e "s|^HTSDIR.*=|HTSDIR = ${SRC}/htslib/1.2.1|" $</Makefile
+	sed -i -e "s|^prefix.*=.*|prefix = $@|" -e "s|^HTSDIR.*=.*|HTSDIR = ${SRC}/htslib/1.2.1|" $</Makefile
 	$(MAKE) -C $< -d
 	${MAKE} -C $< install
 
