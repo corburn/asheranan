@@ -4,12 +4,12 @@ addons:
     sources:
     # add PPAs with more up-to-date toolchains
     - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.6
+    #- llvm-toolchain-precise-3.6
     packages:
     # install toolchains
     - gcc-5
     - g++-5
-    - clang-3.6
+    #- clang-3.6
 #addons:
 #  apt:
 #  sources:
@@ -23,9 +23,12 @@ env:
   global:
     - SRC=$HOME/src
     - LOCAL=$HOME/packages
+    - CC=/usr/bin/gcc-5
+    - CXX=/usr/bin/g++-5
   #matrix:
   #  - FOO=BAR
 script:
+  - echo ${SRC} ${LOCAL}
   - gcc --version
   - ls -lh /usr/bin | grep gcc
   - make -j $(shell grep -c ^processor /proc/cpuinfo) -f samtools.mk SAMTOOLS_VERSION=1.2
