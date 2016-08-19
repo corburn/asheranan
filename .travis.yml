@@ -27,6 +27,9 @@ env:
     #- CC=/usr/bin/gcc-5
     #- CXX=/usr/bin/g++-5
     - PATH=${HOME}/bin:$PATH
+    # https://docs.travis-ci.com/user/languages/cpp#OpenMP-projects
+    # TODO: unset CC and CCX for MPI projects
+    - OMP_NUM_THREADS=4
   matrix:
     #- PROGRAM=samtools
     #  VERSION=$(curl https://api.github.com/repos/samtools/samtools/releases/latest | grep -Pom1 '(?<="name": ").*(?=",)')

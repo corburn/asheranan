@@ -29,6 +29,6 @@ ${SRC}/bwa/%:
 
 ${LOCAL}/bwa/%: ${SRC}/bwa/%
 	${MAKE} -C $<
-	make -m 0755 $@/bin
+	mkdir -m 0755 $@/bin
 	install -D --target-directory=$@/bin $</bwa $(wildcard $</*.pl)
 	$(info TODO: install bwakit)
