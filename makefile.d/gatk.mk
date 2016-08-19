@@ -26,13 +26,13 @@ GATK_PROTECTED_VERSIONS := \
 #	1.0
 	
 
-.PHONY: all_gatk-protected gatk-protected
+.PHONY: all_gatk_protected gatk_protected
 
-all_gatk-protected: $(foreach GATK_PROTECTED_VERSION,$(GATK_PROTECTED_VERSIONS),${LOCAL}/gatk-protected/${GATK_PROTECTED_VERSION})
+all_gatk_protected: $(foreach GATK_PROTECTED_VERSION,$(GATK_PROTECTED_VERSIONS),${LOCAL}/gatk_protected/${GATK_PROTECTED_VERSION})
 
-gatk-protected: ${LOCAL}/gatk-protected/${GATK_PROTECTED_VERSION}
+gatk_protected: ${LOCAL}/gatk_protected/${GATK_PROTECTED_VERSION}
 
-${SRC}/gatk-protected/%:
+${SRC}/gatk_protected/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
@@ -41,6 +41,6 @@ ${SRC}/gatk-protected/%:
 		|| curl -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/'; \
 	}
 
-${LOCAL}/gatk-protected/%: ${SRC}/gatk-protected/%
+${LOCAL}/gatk_protected/%: ${SRC}/gatk_protected/%
 	cd $< \
 	&& mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
