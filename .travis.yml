@@ -3,11 +3,10 @@
 language: java
 
 jdk:
-  #- oraclejdk9 oraclejdk9 is not known
-  #- oraclejdk8
-  #- oraclejdk7
-  - openjdk9
-  - openjdk8
+  #- oraclejdk9 oraclejdk9 is not known to travis-ci
+  #- openjdk[8-9] is not know to travis-ci
+  - oraclejdk8
+  - oraclejdk7
   - openjdk7
   - openjdk6
 
