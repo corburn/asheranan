@@ -70,7 +70,7 @@ $(addprefix ${LOCAL}/samtools/, $(SAMTOOLS_V0_1_X)): ${LOCAL}/samtools/%: ${SRC}
 	install -D --target-directory=$@/bin $(addprefix $</, samtools bcftools/bcftools bcftools/vcfutils.pl)
 	install -D --target-directory=$@/bin $(filter-out $</misc/Makefile $(wildcard $</misc/*.h) $(wildcard $</misc/*.c) $(wildcard $</misc/*.java), $(wildcard $</misc/*))
 	install -D --target-directory=$@/share/man/man1 --mode=0644 $</samtools.1
-	install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1
+	#install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1
 
 $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/% ${SRC}/htslib/%
 	sed -i -e "s|^prefix.*=.*|prefix = $@|" -e "s|^HTSDIR.*=.*|HTSDIR = ${SRC}/htslib/$(notdir $@)|" $</Makefile
@@ -79,7 +79,7 @@ $(addprefix ${LOCAL}/samtools/, 1.0 1.1): ${LOCAL}/samtools/%: ${SRC}/samtools/%
 	install -D --target-directory=$@/bin $</samtools
 	install -D --target-directory=$@/bin $(filter-out Makefile $(wildcard $</misc/*.c) $(wildcard $</misc/*.c) $(wildcard $</misc/*.java), $(wildcard $</misc/*))
 	install -D --target-directory=$@/share/man/man1 --mode=0644 $</samtools.1 || true
-	install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1 || true
+	#install -D --target-directory=$@/share/man/man1 --mode=0644 $</bcftools/bcftools.1 || true
 	$(info TODO: build bcftools v$(notdir $@))
 
 ${LOCAL}/samtools/1.2: ${SRC}/samtools/1.2 ${SRC}/htslib/1.2.1
