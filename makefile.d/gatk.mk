@@ -41,6 +41,8 @@ ${SRC}/gatk_protected/%:
 		|| curl -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/'; \
 	}
 
+# -T 1C allocates 1 thread per cpu core
+# See https://cwiki.apache.org/confluence/display/MAVEN/Parallel+builds+in+Maven+3
 ${LOCAL}/gatk_protected/%: ${SRC}/gatk_protected/%
 	cd $< \
-	&& mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+	&& mvn install -T 1C -DskipTests=true -Dmaven.javadoc.skip=true -B -V
