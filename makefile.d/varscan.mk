@@ -14,11 +14,11 @@ varscan: ${LOCAL}/varscan/${VARSCAN_VERSION}
 # This one has an 'v' before the first version number in the url
 ${SRC}/varscan/2.4.1:
 	mkdir -p $@
-	curl -L -o $@/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/v$(notdir $@)/VarScan.v$(notdir $@).jar
+	${CURL} -L -o $@/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/v$(notdir $@)/VarScan.v$(notdir $@).jar
 
 ${SRC}/varscan/%:
 	mkdir -p $@
-	curl -L -o $@/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/$(notdir $@)/VarScan.v$(notdir $@).jar
+	${CURL} -L -o $@/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/$(notdir $@)/VarScan.v$(notdir $@).jar
 
 ${LOCAL}/varscan/%: ${SRC}/varscan/%
 	mkdir -m 0755 -p $@

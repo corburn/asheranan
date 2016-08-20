@@ -36,13 +36,13 @@ ${SRC}/gatk_protected/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
-		{ curl -L https://github.com/broadgsa/gatk-protected/releases/download/v$(notdir $@)/gatk-protected-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
-		|| curl -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
-		|| curl -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/'; \
+		{ ${CURL} -L https://github.com/broadgsa/gatk-protected/releases/download/v$(notdir $@)/gatk-protected-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
+		|| ${CURL} -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
+		|| ${CURL} -L https://github.com/broadgsa/gatk-protected/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/gatk-protected-$(notdir $@)/$(notdir $@)/'; \
 	}
 
 # -T 1C allocates 1 thread per cpu core
 # See https://cwiki.apache.org/confluence/display/MAVEN/Parallel+builds+in+Maven+3
 ${LOCAL}/gatk_protected/%: ${SRC}/gatk_protected/%
 	cd $< \
-	&& mvn install -T 1C -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+	&& ${MVN} install -T 1C -DskipTests=true -Dmaven.javadoc.skip=true -B -V

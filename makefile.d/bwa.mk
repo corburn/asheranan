@@ -22,9 +22,9 @@ ${SRC}/bwa/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
-		{ curl -L https://github.com/lh3/bwa/releases/download/v$(notdir $@)/bwa-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
-		|| curl -L https://github.com/lh3/bwa/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
-		|| curl -L https://github.com/lh3/bwa/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/'; \
+		{ ${CURL} -L https://github.com/lh3/bwa/releases/download/v$(notdir $@)/bwa-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
+		|| ${CURL} -L https://github.com/lh3/bwa/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
+		|| ${CURL} -L https://github.com/lh3/bwa/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/bwa-$(notdir $@)/$(notdir $@)/'; \
 	}
 
 ${LOCAL}/bwa/%: ${SRC}/bwa/%

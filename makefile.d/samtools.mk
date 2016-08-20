@@ -33,9 +33,9 @@ ${SRC}/samtools/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
-		{ curl -L https://github.com/samtools/samtools/releases/download/$(notdir $@)/samtools-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
-		|| curl -L https://github.com/samtools/samtools/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
-		|| curl -L https://github.com/samtools/samtools/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/'; \
+		{ ${CURL} -L https://github.com/samtools/samtools/releases/download/$(notdir $@)/samtools-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
+		|| ${CURL} -L https://github.com/samtools/samtools/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
+		|| ${CURL} -L https://github.com/samtools/samtools/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/samtools-$(notdir $@)/$(notdir $@)/'; \
 	}
 
 
@@ -45,9 +45,9 @@ ${SRC}/htslib/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
-		{ curl -L https://github.com/samtools/htslib/releases/download/$(notdir $@)/htslib-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
-		|| curl -L https://github.com/samtools/htslib/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
-		|| curl -L https://github.com/samtools/htslib/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/'; \
+		{ ${CURL} -L https://github.com/samtools/htslib/releases/download/$(notdir $@)/htslib-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
+		|| ${CURL} -L https://github.com/samtools/htslib/archive/$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
+		|| ${CURL} -L https://github.com/samtools/htslib/archive/$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/htslib-$(notdir $@)/$(notdir $@)/'; \
 	}
 
 ## BCFTOOLS SOURCE ##

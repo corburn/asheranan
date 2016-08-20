@@ -28,9 +28,9 @@ ${SRC}/bowtie2/%:
 	mkdir -p $(dir $@) \
 	&& cd $(dir $@) \
 	&& { \
-		{ curl -L https://github.com/BenLangmead/bowtie2/releases/download/v$(notdir $@)/bowtie2-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
-		|| curl -L https://github.com/BenLangmead/bowtie2/archive/v$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
-		|| curl -L https://github.com/BenLangmead/bowtie2/archive/v$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/'; \
+		{ ${CURL} -L https://github.com/BenLangmead/bowtie2/releases/download/v$(notdir $@)/bowtie2-$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/' 2> /dev/null \
+		|| ${CURL} -L https://github.com/BenLangmead/bowtie2/archive/v$(notdir $@).tar.bz2 | tar -xj --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/' 2>/dev/null; } \
+		|| ${CURL} -L https://github.com/BenLangmead/bowtie2/archive/v$(notdir $@).tar.gz | tar xz --no-same-owner --no-same-permissions --transform 's/bowtie2-$(notdir $@)/$(notdir $@)/'; \
 	}
 
 ${LOCAL}/bowtie2/%: ${SRC}/bowtie2/%
