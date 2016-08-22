@@ -39,9 +39,14 @@ ${LOCAL}/bowtie2/%: ${SRC}/bowtie2/%
 	# Insert a basic install rule if not present.
 	# Assign a default value to the prefix variable in case the Makefile
 	# is run outside this script without passing a value to prefix.
+	#
+	# The following variables were found in the bowtie2 v2.2.5 Makefile:
+	# BIN_PKG_LIST includes the bowtie2{,-build} wrapper scripts and examples;
+	# these do not have build targets.
+	# BOWTIE2_BIN_LIST includes the compiled binaries.
 	grep -q '^install:' $</Makefile \
 	|| $(info insert an install rule) \
-	printf '\n\nprefix ?= /usr/local\n.PHONY: install\ninstall: $${BOWTIE2_BIN_LIST}\n\tinstall -D --target-directory=$${prefix}/bin $${BOWTIE2_BIN_LIST}\n' >> $</Makefile \
+	printf '\n\nprefix ?= /usr/local\n.PHONY: install\ninstall: $${BOWTIE2_BIN_LIST}\n\tinstall -D --target-directory=$${prefix}/bin $${BIN_PKG_LIST} $${BOWTIE2_BIN_LIST}\n' >> $</Makefile \
 	&& mkdir -m 0755 -p $@/bin
 
 	${MAKE} -C $< prefix=$@ install
