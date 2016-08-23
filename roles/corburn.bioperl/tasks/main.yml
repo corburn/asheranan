@@ -76,3 +76,4 @@
       - DBD::SQLite
       - DBI
       - Bio::Perl
+      - Bio::DB::EUtilities
