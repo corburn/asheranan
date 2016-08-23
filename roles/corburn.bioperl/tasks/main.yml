@@ -1,0 +1,78 @@
+---
+- hosts: all
+  tasks:
+  - name: Install package libraries for Bio::Perl and its dependencies
+    apt: 'name={{ item }}'
+    with_items:
+      - make
+      - gcc
+      # Could not find gdlib-config in the search path. Please install libgd 2.0.28 or higher.
+      - libgd-dev
+      # Checking for ability to link against libxml2...libxml2, zlib, and/or the Math library (-lm) have not been found.
+      #- libxml2
+      - libxml2-dev
+      # Expat must be installed prior to building XML::Parser and I can't find
+      # it in the standard library directories. Install 'expat-devel' (or
+      # 'libexpat1-dev') package with your OS package manager. See 'README'.
+      - libexpat1-dev
+      # Can't exec "dot": No such file or directory at Makefile.PL line 21.
+      - graphviz
+      # libssl is a SOAP::Lite dependency
+      - libssl-dev
+      # mysql is a DBD:mysql dependency
+      - mariadb-server
+  # TODO: Databases must be installed and configured to run tests
+  - name: Install perl DBD::{mysql,pg} modules (skip tests)
+    cpanm: 'name={{ item }} notest=yes'
+    with_items:
+      - DBD::mysql
+      #- DBD::pg
+  - name: Install Bio::Perl and dependencies perl modules
+    cpanm: 'name={{ item }}'
+    with_items:
+      - Data::Stag
+      - Test::Most
+      - URI::Escape
+      - Algorithm::Munkres
+      - Array::Compare
+      - Bio::Phylo
+      - Clone
+      - Convert::Binary::C
+      - GD
+      - Graph
+      - GraphViz
+      - HTML::Entities
+      - HTML::HeadParser
+      - HTML::TableExtract
+      - HTTP::Request::Common
+      - IO::Scalar
+      - LWP::UserAgent
+      - List::MoreUtils
+      - PostScript::TextBlock
+      - SOAP::Lite
+      - SVG
+      - SVG::Graph
+      - Set::Scalar
+      - Sort::Naturally
+      - Spreadsheet::ParseExcel
+      - XML::DOM
+      - XML::DOM::XPath
+      - XML::LibXML
+      - XML::Parser
+      - XML::Parser::PerlSAX
+      - XML::SAX
+      - XML::SAX::Writer
+      - XML::Simple
+      - XML::Twig
+      - XML::Writer
+      - YAML
+      - DBI
+      - Bio::ASN1::EntrezGene
+      #- DBD::mysql
+      - DBI
+      - LWP::UserAgent
+      #- DBD::Pg
+      - DBI
+      - DBD::SQLite
+      - DBI
+      - Bio::Perl
