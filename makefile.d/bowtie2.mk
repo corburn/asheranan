@@ -1,5 +1,6 @@
 BOWTIE2_VERSION ?= 2.2.9
 
+# TODO: v2.2.6+ introduce Intel Thread Building Blocks support. Enable?
 BOWTIE2_VERSIONS := \
 	2.0.5 \
 	2.0.6 \
@@ -10,8 +11,6 @@ BOWTIE2_VERSIONS := \
 	2.2.3 \
 	2.2.4 \
 	2.2.5 \
-
-FOO := \
 	2.2.6 \
 	2.2.7 \
 	2.2.8 \
