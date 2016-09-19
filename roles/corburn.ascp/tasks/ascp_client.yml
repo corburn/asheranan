@@ -1,0 +1,21 @@
+# Download and install ascp client
+# http://downloads.asperasoft.com/en/downloads/50
+---
+# The aspera install script will silently fail if tar is not present to extract the archive.
+- name: install client dependencies
+  yum: name=tar
+- name: ascp client install script - download
+  get_url:
+      # The end of the script includes the executable and man page as a base64 encoded archive appended to the
+      # end of the script. The executable will be installed to /usr/local/bin/.
+      url: 'http://download.asperasoft.com/download/sw/ascp-client/3.5.4/ascp-install-3.5.4.102989-linux-64.sh'
+      checksum: 'sha1:a99a63a85fee418d16000a1a51cc70b489755957'
+      dest: /tmp/ascp-install-3.5.4.102989-linux-64.sh
+      mode: 0755
+- name: ascp client install script - run
+  command: '/tmp/ascp-install-3.5.4.102989-linux-64.sh creates=/usr/local/bin/ascp'
+  #become: true
+- name: ascp client install script - remove
+  file: path=/tmp/ascp-install-3.5.4.102989-linux-64.sh state=absent
+- name: copy asperaweb_id_dsa.openssh
+  copy: src=asperaweb_id_dsa.openssh dest=/usr/local/share/aspera/asperaweb_id_dsa.openssh mode=444

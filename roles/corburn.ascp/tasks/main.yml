@@ -1,0 +1,7 @@
+---
+- stat: path=/usr/local/bin/ascp
+  register: ascp
+
+- include: ascp_client.yml
+  when: not ascp.stat.exists
+

@@ -1,10 +1,14 @@
 ---
-- hosts: all
-  roles:
-    - corburn.unattended-upgrades
+#- hosts: all
+#  roles:
+#    - corburn.unattended-upgrades
 
-- hosts: jenkins
+#- hosts: jenkins
+#  roles:
+#    - role: geerlingguy.jenkins
+#      #jenkins_hostname: jenkins.chirabisu.xyz
+ #     jenkins_hostname: 10.0.0.34
+
+- hosts: dev
   roles:
-    - role: geerlingguy.jenkins
-      #jenkins_hostname: jenkins.chirabisu.xyz
-      jenkins_hostname: 10.0.0.34
+      - corburn.ascp
